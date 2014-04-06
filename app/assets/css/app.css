@@ -28,3 +28,44 @@
   content: "";
   padding: 0;
 }
+
+.la-anim-11 {
+    position: fixed;
+    right: 20px;
+    z-index: -1;
+    display: inline-block;
+    visibility: hidden;
+    overflow: hidden;
+    height: 1em;
+    text-align: right;
+    font-weight: 300;
+    font-size: 10em;
+    line-height: 1em;
+    pointer-events: none;
+}
+
+.la-anim-11.la-animate {
+    visibility: visible;
+}
+
+.la-anim-11::after {
+    position: relative;
+    width: 100%;
+    color: rgba(0,0,0,0.1);
+    content: "0%\A 10%\A 22%\A 36%\A 48%\A 53%\A 64%\A 71%\A 83%\A 100%\A";
+    white-space: pre;
+}
+
+.la-anim-11.la-animate::after {
+    -webkit-animation: counter 6s steps(10);
+    animation: counter 6s steps(10);
+}
+
+@keyframes counter {
+    0% { top: 0; }
+    100% { top: -10em; opacity: 0;}
+}
+@-webkit-keyframes counter {
+    0% { top: 0; }
+    100% { top: -10em; opacity: 0;}
+}
