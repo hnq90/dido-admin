@@ -64,17 +64,17 @@ $(document).ready(function () {
         answer_box.find(".boxchart").text(new_answer_7_days);
         answer_box.find(".value").html(total_answer);
 
-        if (box_chart.length) {
-            if (retina()) {
-                box_chart.sparkline("html",
-                    {type: "bar", height: "60", barWidth: "8", barSpacing: "2", barColor: "#ffffff", negBarColor: "#eeeeee"});
-                if (jQuery.browser.mozilla)if (!navigator.userAgent.match(/Trident\/7\./)) {
-                    box_chart.css("MozTransform", "scale(0.5,0.5)").css("height", "30px;");
-                    box_chart.css("height", "30px;").css("margin", "-15px 15px -15px -15px")
-                } else box_chart.css("zoom", .5); else box_chart.css("zoom", .5)
-            } else
+//        if (box_chart.length) {
+//            if (retina()) {
+//                box_chart.sparkline("html",
+//                    {type: "bar", height: "60", barWidth: "8", barSpacing: "2", barColor: "#ffffff", negBarColor: "#eeeeee"});
+//                if (jQuery.browser.mozilla)if (!navigator.userAgent.match(/Trident\/7\./)) {
+//                    box_chart.css("MozTransform", "scale(0.5,0.5)").css("height", "30px;");
+//                    box_chart.css("height", "30px;").css("margin", "-15px 15px -15px -15px")
+//                } else box_chart.css("zoom", .5); else box_chart.css("zoom", .5)
+//            } else
                 box_chart.sparkline("html", {type: "bar", height: "30", barWidth: "4", barSpacing: "1", barColor: "#ffffff", negBarColor: "#eeeeee"});
-        }
+//        }
 
         /* ---------- Placeholder Fix for IE ---------- */
         $('input, textarea').placeholder();

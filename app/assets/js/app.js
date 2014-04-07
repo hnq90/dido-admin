@@ -3,6 +3,7 @@
 
 // Declare app level module which depends on filters, and services
 var DidoCP = angular.module('dido', [
+    'ngResource',
     'ngRoute',
     'dido.filters',
     'dido.services',
@@ -13,10 +14,25 @@ config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.when('/home', {
             templateUrl: 'partials/home.html',
-            controller: 'MyCtrl1'
-        }).when('/view2', {
+            controller: 'DashboardCtrl'
+        }).when('/report', {
             templateUrl: 'partials/partial2.html',
-            controller: 'MyCtrl2'
+            controller: 'ReportCtrl'
+        }).when('/feedback', {
+            templateUrl: 'partials/partial2.html',
+            controller: 'FeedbackCtrl'
+        }).when('/user', {
+            templateUrl: 'partials/partial2.html',
+            controller: 'UserCtrl'
+        }).when('/place', {
+            templateUrl: 'partials/partial2.html',
+            controller: 'PlaceCtrl'
+        }).when('/question', {
+            templateUrl: 'partials/partial2.html',
+            controller: 'QuestionCtrl'
+        }).when('/answer', {
+            templateUrl: 'partials/partial2.html',
+            controller: 'AnswerCtrl'
         }).otherwise({
             redirectTo: '/home'
         });
