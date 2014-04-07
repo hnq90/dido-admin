@@ -64,7 +64,6 @@ $(document).ready(function () {
         answer_box.find(".boxchart").text(new_answer_7_days);
         answer_box.find(".value").html(total_answer);
 
-        console.log(new_place_30_days);
         if (box_chart.length) {
             if (retina()) {
                 box_chart.sparkline("html",
