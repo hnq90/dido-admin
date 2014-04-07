@@ -14,6 +14,7 @@ angular.module('dido.controllers', [])
                 $scope.num_place_7_days = x.place.num_place_7_days.toString();
                 $scope.num_question_7_days = x.question.num_question_7_days.toString();
                 $scope.num_answer_7_days = x.answer.num_answer_7_days.toString();
+                $scope.num_user_30_days = x.user.num_user_30_days;
             });
         }])
     .controller('ReportCtrl', [

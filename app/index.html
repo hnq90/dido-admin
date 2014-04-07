@@ -24,11 +24,9 @@
 
     <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <script src="assets/js/respond.min.js"></script>
     <script src="assets/css/ie6-8.css"></script>
-
     <![endif]-->
 
     <!-- start: Favicon and Touch Icons -->
@@ -71,7 +69,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a>
                                 <span class="icon green"><i class="fa fa-comment"></i></span>
                                 <span class="message">Report review #10</span>
                                 <span class="time">7 min</span>
@@ -84,7 +82,7 @@
                 </li>
                 <!-- start: User Dropdown -->
                 <li class="dropdown">
-                    <a class="btn account dropdown-toggle" data-toggle="dropdown" href="index.html#">
+                    <a class="btn account dropdown-toggle" data-toggle="dropdown">
                         <div class="avatar"><img src="assets/img/avatar2.jpg" alt="Avatar"></div>
                         <div class="user">
                             <span class="hello">Welcome!</span>
@@ -92,7 +90,7 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="index.html#"><i class="fa fa-user"></i> Profile</a></li>
+                        <li><a><i class="fa fa-user"></i> Profile</a></li>
                         <li><a href="login.html"><i class="fa fa-off"></i> Logout</a></li>
                     </ul>
                 </li>
@@ -106,68 +104,27 @@
 <!-- end: Header -->
 
 <div class="container">
-<div class="row">
+    <div class="row">
 
-<!-- start: Main Menu -->
-<div data-ng-include data-src="'partials/menu.html'"></div>
-<!-- end: Main Menu -->
+    <!-- start: Main Menu -->
+    <div data-ng-include data-src="'partials/menu.html'"></div>
+    <!-- end: Main Menu -->
 
-<!-- start: Content -->
-<div ng-view></div>
-<!-- end: Content -->
+    <!-- start: Content -->
+    <div ng-view></div>
+    <!-- end: Content -->
 
-</div>
-<!--/row-->
+    </div>
+    <!--/row-->
 
 </div>
 <!--/container-->
 
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <p>Here settings can be configured...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
 <div class="clearfix"></div>
-
 <footer>
-
-    <div class="row">
-
-        <div class="col-sm-5">
-            &copy; 2014 <a href="http://energeeks.co">Energeeks Team</a>.
-        </div>
-        <!--/.col-->
-
-        <div class="col-sm-7 text-right">
-            Proud of using <a href="http://angularjs.org" alt="AngularJS">AngularJS</a>
-        </div>
-        <!--/.col-->
-
-    </div>
-    <!--/.row-->
-
+    <div data-ng-include data-src="'partials/footer.html'"></div>
 </footer>
 
-<!-- start: JavaScript-->
-<!-- In production use:
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
--->
 <script src="../bower_components/angular/angular.js"></script>
 <script src="../bower_components/angular-route/angular-route.js"></script>
 <script src="../bower_components/angular-resource/angular-resource.js"></script>
@@ -182,15 +139,11 @@
 </script>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-<!-- page scripts -->
 <script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 <script src="assets/js/jquery.sparkline.min.js"></script>
 <script src="assets/js/d3.min.js"></script>
 <script src="assets/js/xcharts.min.js"></script>
-<!--[if lte IE 8]>
-<script language="javascript" type="text/javascript" src="assets/js/excanvas.min.js"></script>
-<![endif]-->
 <script src="assets/js/jquery.flot.min.js"></script>
 <script src="assets/js/jquery.flot.pie.min.js"></script>
 <script src="assets/js/jquery.flot.stack.min.js"></script>
@@ -199,9 +152,7 @@
 <script src="assets/js/jquery.autosize.min.js"></script>
 <script src="assets/js/jquery.placeholder.min.js"></script>
 
-
-<!-- theme scripts -->
-<script src="assets/js/custom.min.js"></script>
+<script src="assets/js/huy.js"></script>
 <script src="assets/js/core.min.js"></script>
 
 </body>

@@ -33,4 +33,20 @@ angular.module('dido.directives', []).
                 };
             }
         }
+    }])
+    .directive('new-user-chart', [function () {
+        'use strict';
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ngModel) {
+                scope.$watch(attrs.ngModel, function () {
+                    render();
+                });
+                var render = function () {
+                    console.log(ngModel);
+                    //draw_one_chart(elem, "New User", ngMode)
+                };
+            }
+        }
     }]);
