@@ -10,12 +10,23 @@ var dido_headers = {
         'Accept': 'application/json'
     },
     base_url = 'http://dido.energeeks.com',
-    dashboard_info = '/api/admin/dashboard_info';
+    dashboard_info = '/api/admin/dashboard_info',
+    user_api = '/api/users/';
 
 dido_api.factory('DashboardInfo', ['$resource',
     function ($resource) {
         return $resource(base_url + dashboard_info, {}, {
             get: {
+                method: 'GET',
+                headers: dido_headers
+            }
+        });
+    }]);
+
+dido_api.factory('UserAPI', ['$resource',
+    function ($resource) {
+        return $resource(base_url + user_api + 'all', {}, {
+            query: {
                 method: 'GET',
                 headers: dido_headers
             }

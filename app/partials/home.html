@@ -62,7 +62,8 @@
                         </div>
                     </div>
                     <div class="box-content">
-                        <div class="chart-type1" style="height:170px" ng-model="num_user_30_days" new-user-chart></div>
+                        <div class="chart-type1" style="height:170px" userchart ng-model="num_user_30_days">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,16 +79,18 @@
                         </div>
                     </div>
                     <div class="box-content">
-                        <div class="chart-type11" style="height:170px"></div>
+                        <div class="chart-type11" style="height:170px" placechart ng-model="num_place_30_days">
+                        </div>
                     </div>
                 </div>
             </div>
             <!--/span-->
             <div class="row">
-                <div class="col-lg-12">
+
+                <div class="col-lg-6">
                     <div class="box blue">
                         <div class="box-header">
-                            <h2><i class="fa fa-bar-chart-o"></i>New Places & Question Last 30 days</h2>
+                            <h2><i class="fa fa-bar-chart-o"></i>New Questions Last 30 days</h2>
 
                             <div class="box-icon">
                                 <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -95,7 +98,25 @@
                             </div>
                         </div>
                         <div class="box-content">
-                            <div class="chart-type111" style="height:170px"></div>
+                            <div class="chart-type1" style="height:170px" questionchart ng-model="num_question_30_days">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-lg-6">
+                    <div class="box blue">
+                        <div class="box-header">
+                            <h2><i class="fa fa-bar-chart-o"></i>New Answers Last 30 days</h2>
+
+                            <div class="box-icon">
+                                <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                                <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <div class="chart-type11" style="height:170px" answerchart ng-model="num_answer_30_days">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -103,41 +124,41 @@
             <!--/col-->
         </div>
         <!--/row-->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h2><i class="fa fa-list-alt"></i><span class="break"></span>Pie</h2>
+        <!--<div class="row">-->
+            <!--<div class="col-sm-12">-->
+                <!--<div class="box">-->
+                    <!--<div class="box-header">-->
+                        <!--<h2><i class="fa fa-list-alt"></i><span class="break"></span>Pie</h2>-->
 
-                        <div class="box-icon">
-                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
-                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="box-content">
-                            <div id="donutchart1" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="box-content">
-                            <div id="donutchart2" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="box-content">
-                            <div id="donutchart3" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="box-content">
-                            <div id="donutchart4" style="height: 300px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/col-->
-        </div>
+                        <!--<div class="box-icon">-->
+                            <!--<a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>-->
+                            <!--<a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                        <!--<div class="box-content">-->
+                            <!--<div id="donutchart1" style="height: 300px;" genderchart></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                        <!--<div class="box-content">-->
+                            <!--<div id="donutchart2" style="height: 300px;"></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                        <!--<div class="box-content">-->
+                            <!--<div id="donutchart3" style="height: 300px;"></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                        <!--<div class="box-content">-->
+                            <!--<div id="donutchart4" style="height: 300px;"></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash;/col&ndash;&gt;-->
+        <!--</div>-->
         <!--/row-->
 
     </div>

@@ -12,9 +12,8 @@ angular.module('dido.directives', []).
         }
     ])
     .directive('sparkline', [function () {
-        'use strict';
         return {
-            restrict: 'A',
+            priority: 1,
             require: 'ngModel',
             link: function (scope, elem, attrs, ngModel) {
                 var opts = {type: "bar", height: "30", barWidth: "4", barSpacing: "1", barColor: "#ffffff", negBarColor: "#eeeeee"}
@@ -34,19 +33,78 @@ angular.module('dido.directives', []).
             }
         }
     }])
-    .directive('new-user-chart', [function () {
-        'use strict';
+    .directive('userchart', [function () {
         return {
             restrict: 'A',
+            priority: 3,
             require: 'ngModel',
-            link: function (scope, elem, attrs, ngModel) {
+            link: function (scope, element, attrs, ngModel) {
                 scope.$watch(attrs.ngModel, function () {
-                    render();
+                    if(ngModel.$viewValue != undefined) {
+                        var data = ngModel.$viewValue;
+                        draw_one_chart($(element), "New User", data);
+                    }
                 });
-                var render = function () {
-                    console.log(ngModel);
-                    //draw_one_chart(elem, "New User", ngMode)
-                };
             }
-        }
+        };
+    }])
+    .directive('placechart', [function () {
+        return {
+            restrict: 'A',
+            priority: 3,
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                scope.$watch(attrs.ngModel, function () {
+                    if(ngModel.$viewValue != undefined) {
+                        var data = ngModel.$viewValue;
+                        draw_one_chart($(element), "New Place", data);
+                    }
+                });
+            }
+        };
+    }])
+    .directive('questionchart', [function () {
+        return {
+            restrict: 'A',
+            priority: 3,
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                scope.$watch(attrs.ngModel, function () {
+                    if(ngModel.$viewValue != undefined) {
+                        var data = ngModel.$viewValue;
+                        draw_one_chart($(element), "New Question", data);
+                    }
+                });
+            }
+        };
+    }])
+    .directive('answerchart', [function () {
+        return {
+            restrict: 'A',
+            priority: 3,
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                scope.$watch(attrs.ngModel, function () {
+                    if(ngModel.$viewValue != undefined) {
+                        var data = ngModel.$viewValue;
+                        draw_one_chart($(element), "New Answer", data);
+                    }
+                });
+            }
+        };
+    }])
+    .directive('genderchart', [function () {
+        return {
+            restrict: 'A',
+            priority: 4,
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                scope.$watch(attrs.ngModel, function () {
+                    if(ngModel.$viewValue != undefined) {
+                        var data = ngModel.$viewValue;
+                        draw_donutChart($(element), data);
+                    }
+                });
+            }
+        };
     }]);

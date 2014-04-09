@@ -22,7 +22,7 @@ config(['$routeProvider',
             templateUrl: 'partials/partial2.html',
             controller: 'FeedbackCtrl'
         }).when('/user', {
-            templateUrl: 'partials/partial2.html',
+            templateUrl: 'partials/user.html',
             controller: 'UserCtrl'
         }).when('/place', {
             templateUrl: 'partials/partial2.html',

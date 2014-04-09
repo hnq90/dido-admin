@@ -15,30 +15,36 @@ angular.module('dido.controllers', [])
                 $scope.num_question_7_days = x.question.num_question_7_days.toString();
                 $scope.num_answer_7_days = x.answer.num_answer_7_days.toString();
                 $scope.num_user_30_days = x.user.num_user_30_days;
+                $scope.num_place_30_days = x.place.num_place_30_days;
+                $scope.num_question_30_days = x.question.num_question_30_days;
+                $scope.num_answer_30_days = x.answer.num_answer_30_days;
             });
         }])
-    .controller('ReportCtrl', [
-        function() {
+    .controller('UserCtrl', ['$scope', 'UserAPI',
+        function($scope, UserAPI){
+            var users = UserAPI.query(function() {
+                $scope.users = users["data"];
+            });
         }
     ])
     .controller('FeedbackCtrl', [
-        function() {
+        function($scope) {
         }
     ])
-    .controller('UserCtrl', [
-        function() {
+    .controller('ReportCtrl', [
+        function($scope) {
         }
     ])
     .controller('PlaceCtrl', [
-        function() {
+        function($scope) {
         }
     ])
     .controller('QuestionCtrl', [
-        function() {
+        function($scope) {
         }
     ])
     .controller('AnswerCtrl', [
-        function() {
+        function($scope) {
         }
     ]);
 
