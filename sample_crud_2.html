@@ -1,0 +1,51 @@
+<script type="text/ng-template" id="/list.html">
+{{message}}
+<hr/>
+   <a href="" ng-click="newCustomer()">New Customer</a>  
+   <ul>
+      <li ng-repeat="customer in customers"><a href="" ng-click="edit(customer._id)">{{customer.name}}</a>
+        [<a href="" ng-click="delete(customer._id)">X</a>]</li>
+   </ul>      
+</script>
+
+<script type="text/ng-template" id="/form.html">
+<h3>{{customerOperation}}</h3>
+<hr/>
+<form name="customerForm">
+  <p><label>OID</label>: <input type="text" name="oid" ng-model="customer._id" readonly="true" /></p>
+  <p><label>Code:</label>:<input type="text" name="code" ng-model="customer.code" required="true" /></p>
+  <p><label>Name:</label>:<input type="text" name="name" ng-model="customer.name" required="true" /></p>
+  <hr/>
+  <input type="submit" ng-click="save()" value="{{buttonLabel}}" /> <button ng-click="cancel()">Cancel</button>
+</form>
+</script>      
+
+      
+  <div ng-controller="MainCtrl">
+    
+    <button ng-click="listCustomers()">ListCustomers()</button>
+    <button ng-click="cancel()">Cancel()</button>
+
+    <table width="100%" border="1" cellspacing="0">
+      <thead>
+        <tr>
+        <th width="50%">$http</th>
+        <th>$resource</th>
+        </tr>
+      </thead>
+      <tbody>    
+      <tr>
+        <td align="center">
+          <input type="radio" name="callType" ng-model="callType" value="_$_HTTP_" />
+        </td>
+        <td  align="center">
+          <input type="radio" name="callType" ng-model="callType" value="_$_RES_" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <ng-include src="view"></ng-include>          
+        </td>
+      </tr>  </tbody>
+    </table>      
+  </div>

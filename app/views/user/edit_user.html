@@ -1,0 +1,86 @@
+<div id="content" class="col-lg-10 col-sm-11">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <div class="box-header">
+                    <h2><i class="fa fa-edit"></i>Edit User Information</h2>
+                </div>
+                <div class="box-content">
+                    <form name="editform" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            <div class="controls">
+                                <input class="form-control disabled" type="text" ng-model="user.email" disabled="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">First Name</label>
+                            <div class="controls">
+                                <input class="form-control focused" type="text" name="firstname" ng-model="user.firstname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Last Name</label>
+                            <div class="controls">
+                                <input class="form-control focused" type="text" name="lastname" ng-model="user.lastname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Password</label>
+                            <div class="controls">
+                                <input class="form-control focused" name="password" type="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Gender</label>
+                            <div class="controls">
+                                <label class="radio">
+                                    <input type="radio" name="usersex" value="0" ng-model="user.sex" ng-value="0"> Female
+                                </label>
+                                <div style="clear:both"></div>
+                                <label class="radio">
+                                    <input type="radio" name="usersex" value="1" ng-model="user.sex" ng-value="1"> Male
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="date">Date of Birth</label>
+                            <div class="controls">
+                                <div class="input-group col-sm-4">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" id="date" class="form-control date-picker" ng-model="user.dob"  data-date-format="yyyy/mm/dd" datepicker>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Mobile Phone</label>
+                            <div class="controls">
+                                <div class="input-group col-sm-4">
+                                    <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                    <input type="text" id="phone" class="form-control" ng-model="user.phone">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Banned</label>
+                            <div class="controls">
+                                <div class="input-group col-sm-4">
+                                    <label class="switch switch-primary">
+                                        <input type="checkbox" ng-model="user.isbanned" ng-value="true" class="switch-input">
+                                        <span data-off="No" data-on="Yes" class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" ng-click="updateUser(user.id, editform.$dirty)">Save changes</button>
+                            <button class="btn" ng-click="cancel(editform.$dirty)">Cancel</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

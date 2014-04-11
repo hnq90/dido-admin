@@ -40,7 +40,7 @@ angular.module('dido.directives', []).
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
                 scope.$watch(attrs.ngModel, function () {
-                    if(ngModel.$viewValue != undefined) {
+                    if (ngModel.$viewValue != undefined) {
                         var data = ngModel.$viewValue;
                         draw_one_chart($(element), "New User", data);
                     }
@@ -55,7 +55,7 @@ angular.module('dido.directives', []).
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
                 scope.$watch(attrs.ngModel, function () {
-                    if(ngModel.$viewValue != undefined) {
+                    if (ngModel.$viewValue != undefined) {
                         var data = ngModel.$viewValue;
                         draw_one_chart($(element), "New Place", data);
                     }
@@ -70,7 +70,7 @@ angular.module('dido.directives', []).
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
                 scope.$watch(attrs.ngModel, function () {
-                    if(ngModel.$viewValue != undefined) {
+                    if (ngModel.$viewValue != undefined) {
                         var data = ngModel.$viewValue;
                         draw_one_chart($(element), "New Question", data);
                     }
@@ -85,7 +85,7 @@ angular.module('dido.directives', []).
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
                 scope.$watch(attrs.ngModel, function () {
-                    if(ngModel.$viewValue != undefined) {
+                    if (ngModel.$viewValue != undefined) {
                         var data = ngModel.$viewValue;
                         draw_one_chart($(element), "New Answer", data);
                     }
@@ -100,11 +100,45 @@ angular.module('dido.directives', []).
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
                 scope.$watch(attrs.ngModel, function () {
-                    if(ngModel.$viewValue != undefined) {
+                    if (ngModel.$viewValue != undefined) {
                         var data = ngModel.$viewValue;
                         draw_donutChart($(element), data);
                     }
                 });
             }
         };
-    }]);
+    }])
+    .directive('hdatatable', [function () {
+        return {
+//            restrict: 'A',
+//            priority: 5,
+//            link: function (scope, element, attrs) {
+//                $(element).dataTable({
+//                    "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-12'i><'col-lg-12 center'p>>",
+//                    "sPaginationType": "bootstrap",
+//                    "oLanguage": {
+//                        "sLengthMenu": "_MENU_ records per page"
+//                    }
+//                });
+//            }
+        };
+    }])
+    .directive('datepicker', function($parse) {
+        return {
+            restrict: 'A',
+            require : 'ngModel',
+            link : function (scope, element, attrs, ngModel) {
+                $(function(){
+                    $(element).datepicker({
+                        dateFormat:'yyyy/mm/dd'
+                    });
+                    $(element).change(function(){
+                        var current_date = $(this).val();
+                        scope.$apply(function () {
+                            ngModel.$setViewValue(current_date);
+                        });
+                    });
+                });
+            }
+        }
+    });

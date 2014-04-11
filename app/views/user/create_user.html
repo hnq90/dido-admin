@@ -1,0 +1,51 @@
+<div id="content" class="col-lg-10 col-sm-11">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <div class="box-header">
+                    <h2><i class="fa fa-edit"></i>Create New User</h2>
+                </div>
+                <div class="box-content">
+                    <form name="createform" class="form-horizontal" novalidate>
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+
+                            <div class="controls">
+                                <input class="form-control focused" type="email" ng-model="user.email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Password</label>
+
+                            <div class="controls">
+                                <input class="form-control focused" name="password" type="password"
+                                       ng-model="user.password" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Confirmation Password</label>
+
+                            <div class="controls">
+                                <input class="form-control focused" name="password_confirmation" type="password"
+                                       ng-model="user.password_confirmation" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="alert alert-danger alert-dismissable" ng-show="has_error" halert>
+                                <strong>Error!</strong>
+                                <ul>
+                                    <li ng-repeat="(k,v) in errors">{{k + ' ' + v}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" ng-click="createUser(createform.$dirty)">Create User</button>
+                            <button class="btn" ng-click="cancel(createform.$dirty)">Cancel</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

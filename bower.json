@@ -6,10 +6,11 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "1.2.x",
-    "angular-route": "1.2.x",
-    "angular-loader": "1.2.x",
-    "angular-mocks": "~1.2.15",
-    "angular-resource": "1.2.x"
+    "angular": "1.2.16",
+    "angular-route": "1.2.16",
+    "angular-loader": "1.2.16",
+    "angular-mocks": "1.2.16",
+    "angular-resource": "1.2.16",
+    "angular-motion": "~0.3.2"
   }
 }

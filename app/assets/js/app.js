@@ -1,37 +1,50 @@
 'use strict';
 
-
 // Declare app level module which depends on filters, and services
 var DidoCP = angular.module('dido', [
     'ngResource',
     'ngRoute',
+//    'ngAnimate',
+    'chieffancypants.loadingBar',
     'dido.filters',
     'dido.services',
     'dido.directives',
     'dido.controllers'
-]).
-config(['$routeProvider',
+]) //ROUTES CONFIG
+    .config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.when('/home', {
-            templateUrl: 'partials/home.html',
+            templateUrl: 'views/others/home.html',
             controller: 'DashboardCtrl'
         }).when('/report', {
-            templateUrl: 'partials/partial2.html',
+            templateUrl: 'views/others/report.html',
             controller: 'ReportCtrl'
         }).when('/feedback', {
-            templateUrl: 'partials/partial2.html',
+            templateUrl: 'views/others/feedback.html',
             controller: 'FeedbackCtrl'
         }).when('/user', {
-            templateUrl: 'partials/user.html',
+            templateUrl: 'views/user/user.html',
             controller: 'UserCtrl'
+        }).when('/user-detail/:id', {
+            templateUrl: 'views/user/edit_user.html',
+            controller: 'UserDetailCtrl'
+        }).when('/user-creation/', {
+            templateUrl: 'views/user/create_user.html',
+            controller: 'UserCreationCtrl'
         }).when('/place', {
-            templateUrl: 'partials/partial2.html',
+            templateUrl: 'views/place/place.html',
             controller: 'PlaceCtrl'
+        }).when('/place-detail/:id', {
+            templateUrl: 'views/place/edit_place.html',
+            controller: 'PlaceDetailCtrl'
+        }).when('/place-creation/', {
+            templateUrl: 'views/place/create_place.html',
+            controller: 'PlaceCreationCtrl'
         }).when('/question', {
-            templateUrl: 'partials/partial2.html',
+            templateUrl: 'views/create_user.html',
             controller: 'QuestionCtrl'
         }).when('/answer', {
-            templateUrl: 'partials/partial2.html',
+            templateUrl: 'views/create_user.html',
             controller: 'AnswerCtrl'
         }).otherwise({
             redirectTo: '/home'

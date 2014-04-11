@@ -3,7 +3,7 @@
 /* Controllers */
 angular.module('dido.controllers', [])
     .controller('DashboardCtrl', ['$scope', 'DashboardInfo',
-        function($scope, DashboardInfo) {
+        function ($scope, DashboardInfo) {
             var datas = DashboardInfo.get(function () {
                 var x = datas["data"];
                 $scope.num_user = x.user.num_user;
@@ -19,42 +19,223 @@ angular.module('dido.controllers', [])
                 $scope.num_question_30_days = x.question.num_question_30_days;
                 $scope.num_answer_30_days = x.answer.num_answer_30_days;
             });
-        }])
-    .controller('UserCtrl', ['$scope', 'UserAPI',
-        function($scope, UserAPI){
-            var users = UserAPI.query(function() {
-                $scope.users = users["data"];
+        }
+    ])
+    .controller('UserCtrl', ['$scope', 'UsersAPI', 'UserAPI', '$location',
+        function ($scope, UsersAPI, UserAPI, $location) {
+
+            $scope.editUser = function (userId) {
+                $location.path('/user-detail/' + userId);
+            };
+
+            $scope.deleteUser = function (userId) {
+                if (confirm("Do you want to delete this user?")) {
+                    UserAPI.delete({ id: userId }, function (data) {
+                        // Success
+                        UsersAPI.query(function (data2) {
+                            $scope.users = data2["data"];
+                        });
+                    }, function (error) {
+                        // Error
+                        $scope.has_error = true;
+                        $scope.errors = error.data.message;
+                    });
+                }
+            };
+
+            $scope.createUser = function () {
+                $location.path('/user-creation');
+            };
+
+            UsersAPI.query({}, function (value, responseHeaders) {
+                // Success
+                $scope.users = value["data"];
+            }, function (response) {
+                // Error
             });
         }
     ])
+    .controller('UserDetailCtrl', ['$scope', '$routeParams', 'UserAPI', '$location',
+        function ($scope, $routeParams, UserAPI, $location) {
+            var user = UserAPI.show({id: $routeParams.id}, function () {
+                $scope.user = user["data"];
+            });
+            $scope.form_state = false;
+
+            $scope.updateUser = function (id, state) {
+                if (state == true) {
+                    if (confirm("Do you want to update?")) {
+                        var current_info = $scope.user;
+                        UserAPI.update(current_info, function (data) {
+                            // Success
+                            $location.path('/user');
+                        }, function (error) {
+                            // Error
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
+                        });
+                    }
+                } else {
+                    alert("User info isn't changed");
+                }
+            };
+
+            $scope.cancel = function (state) {
+                if (state == true) {
+                    if (confirm("Form changed. Do you want to discard changes?")) {
+                        $location.path('/user');
+                    }
+                } else {
+                    $location.path('/user');
+                }
+            };
+        }
+    ])
+    .controller('UserCreationCtrl', ['$scope', 'UserCreationAPI', '$location',
+        function ($scope, UserCreationAPI, $location) {
+
+            $scope.createUser = function (state) {
+                if (state == true) {
+                    if (confirm("Do you want to create?")) {
+                        UserCreationAPI.create({user: $scope.user}, function (data) {
+                            // Success
+                            $location.path('/user');
+                        }, function (error) {
+                            // Error
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
+                        });
+                    }
+                } else {
+                    alert("Please enter new user information");
+                }
+            };
+
+            $scope.cancel = function (state) {
+                if (state == true) {
+                    if (confirm("Form changed. Do you want to discard changes?")) {
+                        $location.path('/user');
+                    }
+                } else {
+                    $location.path('/user');
+                }
+            };
+        }
+    ]) // DONE USER CONTROLLERS
+    .controller('PlaceCtrl', ['$scope', 'UsersAPI', 'UserAPI', '$location',
+        function ($scope, UsersAPI, UserAPI, $location) {
+
+            $scope.editUser = function (userId) {
+                $location.path('/user-detail/' + userId);
+            };
+
+            $scope.deleteUser = function (userId) {
+                if (confirm("Do you want to delete this user?")) {
+                    UserAPI.delete({ id: userId }, function (data) {
+                        // Success
+                        UsersAPI.query(function (data2) {
+                            $scope.users = data2["data"];
+                        });
+                    }, function (error) {
+                        // Error
+                        $scope.has_error = true;
+                        $scope.errors = error.data.message;
+                    });
+                }
+            };
+
+            $scope.createUser = function () {
+                $location.path('/user-creation');
+            };
+
+            UsersAPI.query({}, function (value, responseHeaders) {
+                // Success
+                $scope.users = value["data"];
+            }, function (response) {
+                // Error
+            });
+        }
+    ])
+    .controller('PlaceDetailCtrl', ['$scope', '$routeParams', 'UserAPI', '$location',
+        function ($scope, $routeParams, UserAPI, $location) {
+            var user = UserAPI.show({id: $routeParams.id}, function () {
+                $scope.user = user["data"];
+            });
+            $scope.form_state = false;
+
+            $scope.updateUser = function (id, state) {
+                if (state == true) {
+                    if (confirm("Do you want to update?")) {
+                        var current_info = $scope.user;
+                        UserAPI.update(current_info, function (data) {
+                            // Success
+                            $location.path('/user');
+                        }, function (error) {
+                            // Error
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
+                        });
+                    }
+                } else {
+                    alert("User info isn't changed");
+                }
+            };
+
+            $scope.cancel = function (state) {
+                if (state == true) {
+                    if (confirm("Form changed. Do you want to discard changes?")) {
+                        $location.path('/user');
+                    }
+                } else {
+                    $location.path('/user');
+                }
+            };
+        }
+    ])
+    .controller('PlaceCreationCtrl', ['$scope', 'UserCreationAPI', '$location',
+        function ($scope, UserCreationAPI, $location) {
+
+            $scope.createUser = function (state) {
+                if (state == true) {
+                    if (confirm("Do you want to create?")) {
+                        UserCreationAPI.create({user: $scope.user}, function (data) {
+                            // Success
+                            $location.path('/user');
+                        }, function (error) {
+                            // Error
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
+                        });
+                    }
+                } else {
+                    alert("Please enter new user information");
+                }
+            };
+
+            $scope.cancel = function (state) {
+                if (state == true) {
+                    if (confirm("Form changed. Do you want to discard changes?")) {
+                        $location.path('/user');
+                    }
+                } else {
+                    $location.path('/user');
+                }
+            };
+        }
+    ]) //DONE PLACE CONTROLLERS
     .controller('FeedbackCtrl', [
-        function($scope) {
+        function ($scope) {
         }
     ])
     .controller('ReportCtrl', [
-        function($scope) {
-        }
-    ])
-    .controller('PlaceCtrl', [
-        function($scope) {
+        function ($scope) {
         }
     ])
     .controller('QuestionCtrl', [
-        function($scope) {
+        function ($scope) {
         }
     ])
     .controller('AnswerCtrl', [
-        function($scope) {
+        function ($scope) {
         }
-    ]);
-
-//.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
-//    function($scope, $routeParams, Phone) {
-//        $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
-//            $scope.mainImageUrl = phone.images[0];
-//        });
-//
-//        $scope.setImage = function(imageUrl) {
-//            $scope.mainImageUrl = imageUrl;
-//        }
-//    }])
+    ])
