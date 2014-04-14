@@ -1,0 +1,210 @@
+<div id="content" class="col-lg-10 col-sm-11">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <div class="box-header">
+                    <h2><i class="fa fa-edit"></i>Create New Place</h2>
+                </div>
+                <div class="box-content">
+                    <form name="createform" class="form-horizontal" novalidate>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Active</label>
+
+                            <div class="controls">
+                                <div class="input-group col-sm-4">
+                                    <label class="switch switch-primary">
+                                        <input type="checkbox" ng-model="place.is_active" ng-value="true"
+                                               class="switch-input">
+                                        <span data-off="No" data-on="Yes" class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Title</label>
+
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                <input class="form-control focused" type="text" name="title" ng-model="place.title">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Description</label>
+
+                            <div class="controls">
+                                <textarea rows="6" style="width:100%" ng-bind-html="place.description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label class="control-label">Thumbnail</label>
+
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
+                                <input class="form-control focused" type="text" name="thumbnail"
+                                       ng-model="place.thumbnail">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label class="control-label">Large Image</label>
+
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-camera-retro"></i></span>
+                                <input class="form-control focused" type="text" name="thumbnail"
+                                       ng-model="place.origin_image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Street</label>
+
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                <input class="form-control focused" type="text" name="title" ng-model="place.title">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label class="control-label">District</label>
+                            <div class="controls">
+                                <select chosen class="form-control" data-rel="chosen"
+                                        data-placeholder="Choose a District"
+                                        no-results-text="'Could not find any district!'"
+                                        ng-model="place.district"
+                                        ng-options="v.district for v in districts track by v.id">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label class="control-label">City</label>
+                            <div class="controls">
+                                <select chosen class="form-control" data-rel="chosen"
+                                        data-placeholder="Choose a City"
+                                        no-results-text="'Could not find any city!'"
+                                        ng-model="place.city"
+                                        ng-options="v.city for v in cities track by v.id">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Direction Guide</label>
+
+                            <div class="controls">
+                                <textarea id="limit" rows="6" style="width:100%"
+                                          ng-bind-html="place.direction_guide"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Day Off</label>
+
+                            <div class="input-group col-sm-6">
+                                <span class="input-group-addon"><i class="fa fa-power-off"></i></span>
+                                <input class="form-control focused" type="text" name="title"
+                                       ng-model="place.day_off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Phone</label>
+
+                            <div class="input-group col-sm-6">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <input class="form-control focused" type="text" name="title" ng-model="place.phone">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Open Time Range</label>
+
+                            <div class="controls">
+                                <div class="input-group col-sm-6">
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    <input type="text" class="form-control timepicker" ng-model="place.open_time">
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                    <input type="text" class="form-control timepicker" ng-model="place.close_time">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Price Range</label>
+
+                            <div class="input-group col-sm-6">
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                <input type="number" class="form-control timepicker" ng-model="place.min_price">
+                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                <input type="number" class="form-control timepicker" ng-model="place.max_price">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Sale Off?</label>
+
+                            <div class="controls">
+                                <div class="input-group col-sm-4">
+                                    <label class="switch switch-primary">
+                                        <input type="checkbox" ng-model="place.is_sale_off" ng-value="true"
+                                               class="switch-input">
+                                        <span data-off="No" data-on="Yes" class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">Has Park?</label>
+
+                            <div class="controls">
+                                <div class="input-group col-sm-4">
+                                    <label class="switch switch-primary">
+                                        <input type="checkbox" ng-model="place.has_park" ng-value="true"
+                                               class="switch-input">
+                                        <span data-off="No" data-on="Yes" class="switch-label"></span>
+                                        <span class="switch-handle"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <div class="alert alert-danger alert-dismissable" ng-show="has_error" halert>
+                                <strong>Error!</strong>
+                                <ul>
+                                    <li ng-repeat="(k,v) in errors">{{k + ' ' + v}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" ng-click="createPlace(createform.$dirty)">Create Place</button>
+                            <button class="btn" ng-click="cancel(createform.$dirty)">Cancel</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -236,7 +236,7 @@ angular.module('dido.controllers', [])
                 $location.path('/place-creation');
             };
 
-            var x = PlacesAPI.query({}, function (value, headers) {
+            PlacesAPI.query({}, function (value, headers) {
                 // Success
                 $scope.places = value["data"];
 
@@ -265,82 +265,28 @@ angular.module('dido.controllers', [])
             }
         }
     ])
-    .controller('PlaceDetailCtrl', ['$scope', '$routeParams', 'PlaceAPI', 'DistrictsAPI', 'CitiesAPI',
-        'CuisinesAPI', 'CategoriesAPI', 'PurposesAPI', 'PropertiesAPI', 'DishesAPI', 'DiningsAPI', '$location',
-        function ($scope, $routeParams, PlaceAPI, DistrictsAPI, CitiesAPI, CuisinesAPI,
-                  CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
-
+    .controller('PlaceDetailCtrl', ['$scope', '$routeParams', 'PlaceAPI', 'DistrictAPI', '$location',
+        function ($scope, $routeParams, PlaceAPI, $location, DistrictAPI) {
             var place = PlaceAPI.show({id: $routeParams.id}, function () {
                 $scope.place = place["data"];
-
                 // GET OTHER PLACE INFO
                 var district_id = $scope.place.district.id;
                 var city_id = $scope.place.district.city_id;
-
-                var district = DistrictsAPI.query({city_id: city_id}, function() {
-                    $scope.districts = district["data"];
-                });
-
-                $scope.old_city = city_id;
-                $scope.old_district = district_id;
-
             });
-
-            var city = CitiesAPI.query({}, function() {
-                $scope.cities = city["data"];
-            });
-
-            var cuisines_data = CuisinesAPI.query({}, function() {
-                $scope.cuisines = cuisines_data["data"];
-            });
-
-            var categories_data = CategoriesAPI.query({}, function() {
-                $scope.categories = categories_data["data"];
-            });
-
-            var purposes_data = PurposesAPI.query({}, function() {
-                $scope.purposes = purposes_data["data"];
-            });
-
-            var properties_data = PropertiesAPI.query({}, function() {
-                $scope.properties = properties_data["data"];
-            });
-
-            var dishes_data = DishesAPI.query({}, function() {
-                $scope.dishes = dishes_data["data"];
-            });
-
-            var dinings_data = DiningsAPI.query({}, function() {
-                $scope.dinings = dinings_data["data"];
-            });
-
-            $scope.changeCity = function() {
-                var city_id = $scope.place.city.id;
-                var district = DistrictsAPI.query({city_id: city_id}, function() {
-                    $scope.districts = district["data"];
-                    if ($scope.old_city == city_id) {
-                        $scope.place.district.id = $scope.old_district;
-                    } else {
-                        $scope.place.district.id = $scope.districts[0].id;
-                    }
-                });
-            };
-
             $scope.form_state = false;
 
             $scope.updatePlace = function (id, state) {
                 if (state == true) {
                     if (confirm("Do you want to update?")) {
                         var current_info = $scope.place;
-                        console.log(current_info);
-//                        PlaceAPI.update(current_info, function (data) {
-//                            // Success
-//                            $location.path('/place');
-//                        }, function (error) {
-//                            // Error
-//                            $scope.has_error = true;
-//                            $scope.errors = error.data.message;
-//                        });
+                        PlaceAPI.update(current_info, function (data) {
+                            // Success
+                            $location.path('/place');
+                        }, function (error) {
+                            // Error
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
+                        });
                     }
                 } else {
                     alert("Place info isn't changed");

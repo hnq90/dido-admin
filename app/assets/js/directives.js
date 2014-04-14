@@ -123,16 +123,16 @@ angular.module('dido.directives', []).
 //            }
         };
     }])
-    .directive('datepicker', function($parse) {
+    .directive('datepicker', [function ($parse) {
         return {
             restrict: 'A',
-            require : 'ngModel',
-            link : function (scope, element, attrs, ngModel) {
-                $(function(){
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                $(function () {
                     $(element).datepicker({
-                        dateFormat:'yyyy/mm/dd'
+                        dateFormat: 'yyyy/mm/dd'
                     });
-                    $(element).change(function(){
+                    $(element).change(function () {
                         var current_date = $(this).val();
                         scope.$apply(function () {
                             ngModel.$setViewValue(current_date);
@@ -141,4 +141,4 @@ angular.module('dido.directives', []).
                 });
             }
         }
-    });
+    }]);

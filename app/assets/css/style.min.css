@@ -1,6 +1,8 @@
 /*@import "jquery-ui-1.10.3.custom.css";*/
 /*@import "fullcalendar.css";*/
 /*@import "chosen.css";*/
+@import "../../../bower_components/chosen/chosen.css";
+@import "../../../bower_components/angular-chosen-localytics/chosen-spinner.css";
 /*@import "jquery.cleditor.css";*/
 /*@import "jquery.noty.css";*/
 /*@import "noty_theme_default.css";*/
