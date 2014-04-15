@@ -31,17 +31,19 @@ angular.module('dido.controllers', [])
             };
 
             $scope.deleteUser = function (userId) {
-                if (confirm("Do you want to delete this user?")) {
-                    UserAPI.delete({ id: userId }, function (data) {
-                        // Success
-                        UsersAPI.query(function (data2) {
-                            $scope.users = data2["data"];
+                if (confirm("Do have the right to delete this user?")) {
+                    if(confirm("Do you really want to delete this user?")) {
+                        UserAPI.delete({ id: userId }, function (data) {
+                            // Success
+                            UsersAPI.query(function (data2) {
+                                $scope.users = data2["data"];
+                            });
+                        }, function (error) {
+                            // Error
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
                         });
-                    }, function (error) {
-                        // Error
-                        $scope.has_error = true;
-                        $scope.errors = error.data.message;
-                    });
+                    }
                 }
             };
 
@@ -358,13 +360,95 @@ angular.module('dido.controllers', [])
             };
         }
     ])
-    .controller('PlaceCreationCtrl', ['$scope', 'UserCreationAPI', '$location',
-        function ($scope, PlacesAPI, $location) {
+    .controller('PlaceCreationCtrl', ['$scope', 'PlaceAPI', 'PlacesAPI', 'DistrictsAPI', 'CitiesAPI',
+        'CuisinesAPI', 'CategoriesAPI', 'PurposesAPI', 'PropertiesAPI', 'DishesAPI', 'DiningsAPI', '$location',
+        function ($scope, PlaceAPI, PlacesAPI, DistrictsAPI, CitiesAPI, CuisinesAPI,
+                  CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
+
+            $scope.place = {};
+
+            var district = DistrictsAPI.query({city_id: 1}, function() {
+                $scope.districts = district["data"];
+                $scope.place.district = $scope.districts[0];
+            });
+
+            var city = CitiesAPI.query({}, function() {
+                $scope.cities = city["data"];
+                $scope.place.city = $scope.cities[0];
+            });
+
+            var cuisines_data = CuisinesAPI.query({}, function() {
+                $scope.cuisines = cuisines_data["data"];
+            });
+
+            var categories_data = CategoriesAPI.query({}, function() {
+                $scope.categories = categories_data["data"];
+            });
+
+            var purposes_data = PurposesAPI.query({}, function() {
+                $scope.purposes = purposes_data["data"];
+            });
+
+            var properties_data = PropertiesAPI.query({}, function() {
+                $scope.properties = properties_data["data"];
+            });
+
+            var dishes_data = DishesAPI.query({}, function() {
+                $scope.dishes = dishes_data["data"];
+            });
+
+            var dinings_data = DiningsAPI.query({}, function() {
+                $scope.dinings = dinings_data["data"];
+            });
+
+            google.maps.visualRefresh = true;
+
+            $scope.map = {
+                center: {
+                    latitude: 21.0107,
+                    longitude: 105.8240
+                },
+                zoom: 12
+            };
+
+            $scope.changeCity = function() {
+                var city_id = $scope.place.city.id;
+                var district = DistrictsAPI.query({city_id: city_id}, function() {
+                    $scope.districts = district["data"];
+                    if ($scope.old_city == city_id) {
+                        $scope.place.district.id = $scope.old_district;
+                    } else {
+                        $scope.place.district.id = $scope.districts[0].id;
+                    }
+                });
+            };
 
             $scope.createPlace = function (state) {
                 if (state == true) {
                     if (confirm("Do you want to create?")) {
-                        PlacesAPI.create({place: $scope.place}, function (data) {
+                        $scope.place.district_id = $scope.place.district.id;
+                        if ($scope.place.categories != null && $scope.place.categories.length > 0)
+                            $scope.place.category_ids = "["+$scope.place.categories.map(function(item) { return item.id; }).toString() + "]";
+
+                        if ($scope.place.cuisines != null && $scope.place.cuisines.length > 0)
+                            $scope.place.cuisine_ids = "["+$scope.place.cuisines.map(function(item) { return item.id; }).toString() + "]";
+
+                        if ($scope.place.purposes != null && $scope.place.purposes.length > 0)
+                            $scope.place.purpose_ids = "["+$scope.place.purposes.map(function(item) { return item.id; }).toString() + "]";
+
+                        if ($scope.place.properties != null && $scope.place.properties.length > 0)
+                            $scope.place.property_ids = "["+$scope.place.properties.map(function(item) { return item.id; }).toString() + "]";
+
+                        if ($scope.place.dishes != null && $scope.place.dishes.length > 0)
+                            $scope.place.dish_ids = "["+$scope.place.dishes.map(function(item) { return item.id; }).toString() + "]";
+
+                        if ($scope.place.dinings != null && $scope.place.dinings.length > 0)
+                            $scope.place.dining_ids = "["+$scope.place.dinings.map(function(item) { return item.id; }).toString() + "]";
+
+                        $scope.place.longitude = 0;
+                        $scope.place.latitude = 0;
+//                        console.log($scope.place);
+                        PlacesAPI.create($scope.place, function (data) {
                             // Success
                             $location.path('/place');
                         }, function (error) {

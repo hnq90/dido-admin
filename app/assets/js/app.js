@@ -8,6 +8,7 @@ var DidoCP = angular.module('dido', [
     'ngSanitize',
     'ui.bootstrap',
     'chieffancypants.loadingBar',
+    'google-maps',
     'localytics.directives',
     'dido.filters',
     'dido.services',

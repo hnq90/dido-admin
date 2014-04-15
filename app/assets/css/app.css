@@ -69,3 +69,5 @@
     0% { top: 0; }
     100% { top: -10em; opacity: 0;}
 }
+
+.angular-google-map-container { height: 400px; }
