@@ -9,8 +9,8 @@ var dido_headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     },
-    base_url = 'http://localhost:3000',
-//    base_url = 'http://dido.energeeks.com',
+//    base_url = 'http://localhost:3000',
+    base_url = 'http://dido.energeeks.com',
     dashboard_info = '/api/admin/dashboard_info',
     user_creation_api = '/api/v1/users/',
     user_api = '/api/users/',
@@ -22,7 +22,8 @@ var dido_headers = {
     category_api = '/api/categories/',
     property_api = '/api/properties/',
     dining_api = '/api/dinings/',
-    dish_api = '/api/dishes/';
+    dish_api = '/api/dishes/',
+    report_api = '/api/reports/';
 
 dido_api.factory('DashboardInfo', ['$resource',
     function ($resource) {
@@ -125,6 +126,15 @@ dido_api.factory('DashboardInfo', ['$resource',
                 }
             })
         }])
+    .factory('PlaceSearchAPI', ['$resource',
+        function ($resource) {
+            return $resource(base_url + place_api + 'search', {}, {
+                query: {
+                    method: 'GET',
+                    headers: dido_headers
+                }
+            });
+        }])
     .factory('DistrictsAPI', ['$resource',
         function ($resource) {
             return $resource(base_url + district_api + 'all', {}, {
@@ -191,6 +201,15 @@ dido_api.factory('DashboardInfo', ['$resource',
     .factory('DiningsAPI', ['$resource',
         function ($resource) {
             return $resource(base_url + dining_api + 'all', {}, {
+                query: {
+                    method: 'GET',
+                    headers: dido_headers
+                }
+            });
+        }])
+    .factory('ReportsAPI', ['$resource',
+        function($resource) {
+            return $resource(base_url + report_api + 'admin_all', {}, {
                 query: {
                     method: 'GET',
                     headers: dido_headers

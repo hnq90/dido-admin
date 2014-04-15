@@ -5,7 +5,7 @@ angular.module('dido.controllers', [])
     .controller('DashboardCtrl', ['$scope', 'DashboardInfo',
         function ($scope, DashboardInfo) {
             var datas = DashboardInfo.get(function () {
-                var x = datas["data"];
+                var x = datas['data'];
                 $scope.num_user = x.user.num_user;
                 $scope.num_place = x.place.num_place;
                 $scope.num_question = x.question.num_question;
@@ -32,7 +32,7 @@ angular.module('dido.controllers', [])
 
             $scope.deleteUser = function (userId) {
                 if (confirm("Do have the right to delete this user?")) {
-                    if(confirm("Do you really want to delete this user?")) {
+                    if (confirm("Do you really want to delete this user?")) {
                         UserAPI.delete({ id: userId }, function (data) {
                             // Success
                             UsersAPI.query(function (data2) {
@@ -51,7 +51,7 @@ angular.module('dido.controllers', [])
                 $location.path('/user-creation');
             };
 
-            $scope.searchUser = function() {
+            $scope.searchUser = function () {
                 $location.path('/user-search');
             };
 
@@ -66,7 +66,7 @@ angular.module('dido.controllers', [])
                 $scope.total_items = parseInt(res_headers["x-total"]) || 0;
                 $scope.current_page = parseInt(res_headers["x-page"]) || 0;
 
-                $scope.$watch('current_page', function(newPage){
+                $scope.$watch('current_page', function (newPage) {
                     if ($scope.current_page > 0)
                         changePage(newPage);
                 });
@@ -74,7 +74,7 @@ angular.module('dido.controllers', [])
                 // Error
             });
 
-            var changePage = function(page) {
+            var changePage = function (page) {
                 UsersAPI.query({page: page}, function (value, headers) {
                     // Success
                     $scope.users = value["data"];
@@ -90,7 +90,7 @@ angular.module('dido.controllers', [])
             $scope.search_user_page = true;
             $scope.users = {};
 
-            $scope.listUser = function() {
+            $scope.listUser = function () {
                 $location.path('/user');
             };
 
@@ -113,8 +113,8 @@ angular.module('dido.controllers', [])
                 }
             };
 
-            $scope.searchUser = function(keyword) {
-                keyword = keyword == undefined ? '*':keyword;
+            $scope.searchUser = function (keyword) {
+                keyword = keyword == undefined ? '*' : keyword;
                 UserSearchAPI.query({keyword: keyword}, function (value, headers) {
                     // Success
                     $scope.users = value["data"];
@@ -125,7 +125,7 @@ angular.module('dido.controllers', [])
                     $scope.total_items = parseInt(res_headers["x-total"]) || 0;
                     $scope.current_page = parseInt(res_headers["x-page"]) || 0;
 
-                    $scope.$watch('current_page', function(newPage){
+                    $scope.$watch('current_page', function (newPage) {
                         if ($scope.current_page > 0)
                             changePage(newPage, keyword);
                     });
@@ -134,7 +134,7 @@ angular.module('dido.controllers', [])
                 });
             };
 
-            var changePage = function(page, keyword) {
+            var changePage = function (page, keyword) {
                 UserSearchAPI.query({keyword: keyword, page: page}, function (value, headers) {
                     // Success
                     $scope.users = value["data"];
@@ -234,6 +234,10 @@ angular.module('dido.controllers', [])
                 }
             };
 
+            $scope.searchPlace = function () {
+                $location.path('/place-search');
+            };
+
             $scope.createPlace = function () {
                 $location.path('/place-creation');
             };
@@ -249,7 +253,7 @@ angular.module('dido.controllers', [])
                 $scope.total_items = parseInt(res_headers["x-total"]);
                 $scope.current_page = parseInt(res_headers["x-page"]);
 
-                $scope.$watch('current_page', function(newPage){
+                $scope.$watch('current_page', function (newPage) {
                     if ($scope.current_page > 0)
                         changePage(newPage);
                 });
@@ -257,7 +261,7 @@ angular.module('dido.controllers', [])
                 // Error
             });
 
-            var changePage = function(page) {
+            var changePage = function (page) {
                 PlacesAPI.query({page: page}, function (value, headers) {
                     // Success
                     $scope.places = value["data"];
@@ -269,8 +273,8 @@ angular.module('dido.controllers', [])
     ])
     .controller('PlaceDetailCtrl', ['$scope', '$routeParams', 'PlaceAPI', 'DistrictsAPI', 'CitiesAPI',
         'CuisinesAPI', 'CategoriesAPI', 'PurposesAPI', 'PropertiesAPI', 'DishesAPI', 'DiningsAPI', '$location',
-        function ($scope, $routeParams, PlaceAPI, DistrictsAPI, CitiesAPI, CuisinesAPI,
-                  CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
+        function ($scope, $routeParams, PlaceAPI, DistrictsAPI, CitiesAPI,
+                  CuisinesAPI, CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
 
             var place = PlaceAPI.show({id: $routeParams.id}, function () {
                 $scope.place = place["data"];
@@ -279,7 +283,7 @@ angular.module('dido.controllers', [])
                 var district_id = $scope.place.district.id;
                 var city_id = $scope.place.district.city_id;
 
-                var district = DistrictsAPI.query({city_id: city_id}, function() {
+                var district = DistrictsAPI.query({city_id: city_id}, function () {
                     $scope.districts = district["data"];
                 });
 
@@ -288,37 +292,37 @@ angular.module('dido.controllers', [])
 
             });
 
-            var city = CitiesAPI.query({}, function() {
+            var city = CitiesAPI.query({}, function () {
                 $scope.cities = city["data"];
             });
 
-            var cuisines_data = CuisinesAPI.query({}, function() {
+            var cuisines_data = CuisinesAPI.query({}, function () {
                 $scope.cuisines = cuisines_data["data"];
             });
 
-            var categories_data = CategoriesAPI.query({}, function() {
+            var categories_data = CategoriesAPI.query({}, function () {
                 $scope.categories = categories_data["data"];
             });
 
-            var purposes_data = PurposesAPI.query({}, function() {
+            var purposes_data = PurposesAPI.query({}, function () {
                 $scope.purposes = purposes_data["data"];
             });
 
-            var properties_data = PropertiesAPI.query({}, function() {
+            var properties_data = PropertiesAPI.query({}, function () {
                 $scope.properties = properties_data["data"];
             });
 
-            var dishes_data = DishesAPI.query({}, function() {
+            var dishes_data = DishesAPI.query({}, function () {
                 $scope.dishes = dishes_data["data"];
             });
 
-            var dinings_data = DiningsAPI.query({}, function() {
+            var dinings_data = DiningsAPI.query({}, function () {
                 $scope.dinings = dinings_data["data"];
             });
 
-            $scope.changeCity = function() {
+            $scope.changeCity = function () {
                 var city_id = $scope.place.city.id;
-                var district = DistrictsAPI.query({city_id: city_id}, function() {
+                var district = DistrictsAPI.query({city_id: city_id}, function () {
                     $scope.districts = district["data"];
                     if ($scope.old_city == city_id) {
                         $scope.place.district.id = $scope.old_district;
@@ -334,15 +338,47 @@ angular.module('dido.controllers', [])
                 if (state == true) {
                     if (confirm("Do you want to update?")) {
                         var current_info = $scope.place;
-                        console.log(current_info);
-//                        PlaceAPI.update(current_info, function (data) {
-//                            // Success
-//                            $location.path('/place');
-//                        }, function (error) {
-//                            // Error
-//                            $scope.has_error = true;
-//                            $scope.errors = error.data.message;
-//                        });
+//                        $scope.place.district_id = $scope.place.district.id;
+
+                        if ($scope.place.categories != null && $scope.place.categories.length > 0)
+                            $scope.place.category_ids = "[" + $scope.place.categories.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
+
+                        if ($scope.place.cuisines != null && $scope.place.cuisines.length > 0)
+                            $scope.place.cuisine_ids = "[" + $scope.place.cuisines.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
+
+                        if ($scope.place.purposes != null && $scope.place.purposes.length > 0)
+                            $scope.place.purpose_ids = "[" + $scope.place.purposes.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
+
+                        if ($scope.place.properties != null && $scope.place.properties.length > 0)
+                            $scope.place.property_ids = "[" + $scope.place.properties.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
+
+                        if ($scope.place.dishes != null && $scope.place.dishes.length > 0)
+                            $scope.place.dish_ids = "[" + $scope.place.dishes.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
+
+                        if ($scope.place.dinings != null && $scope.place.dinings.length > 0)
+                            $scope.place.dining_ids = "[" + $scope.place.dinings.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
+
+//                        console.log(current_info);
+                        PlaceAPI.update(current_info, function (data) {
+                            // Success
+                            $location.path('/place');
+                        }, function (error) {
+                            // Error
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
+                        });
                     }
                 } else {
                     alert("Place info isn't changed");
@@ -362,92 +398,158 @@ angular.module('dido.controllers', [])
     ])
     .controller('PlaceCreationCtrl', ['$scope', 'PlaceAPI', 'PlacesAPI', 'DistrictsAPI', 'CitiesAPI',
         'CuisinesAPI', 'CategoriesAPI', 'PurposesAPI', 'PropertiesAPI', 'DishesAPI', 'DiningsAPI', '$location',
-        function ($scope, PlaceAPI, PlacesAPI, DistrictsAPI, CitiesAPI, CuisinesAPI,
-                  CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
+        function ($scope, PlaceAPI, PlacesAPI, DistrictsAPI, CitiesAPI,
+                  CuisinesAPI, CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
 
             $scope.place = {};
+            $scope.place.latitude = 0;
+            $scope.place.longitude = 0;
 
-            var district = DistrictsAPI.query({city_id: 1}, function() {
+            var district = DistrictsAPI.query({city_id: 1}, function () {
                 $scope.districts = district["data"];
                 $scope.place.district = $scope.districts[0];
+
+                $scope.place.latitude = $scope.place.district.latitude;
+                $scope.place.longitude = $scope.place.district.longitude;
+
+                $scope.map.center = $scope.place.district;
+                $scope.map.clickedMarker = $scope.place.district;
             });
 
-            var city = CitiesAPI.query({}, function() {
+            var city = CitiesAPI.query({}, function () {
                 $scope.cities = city["data"];
                 $scope.place.city = $scope.cities[0];
             });
 
-            var cuisines_data = CuisinesAPI.query({}, function() {
+            var cuisines_data = CuisinesAPI.query({}, function () {
                 $scope.cuisines = cuisines_data["data"];
             });
 
-            var categories_data = CategoriesAPI.query({}, function() {
+            var categories_data = CategoriesAPI.query({}, function () {
                 $scope.categories = categories_data["data"];
             });
 
-            var purposes_data = PurposesAPI.query({}, function() {
+            var purposes_data = PurposesAPI.query({}, function () {
                 $scope.purposes = purposes_data["data"];
             });
 
-            var properties_data = PropertiesAPI.query({}, function() {
+            var properties_data = PropertiesAPI.query({}, function () {
                 $scope.properties = properties_data["data"];
             });
 
-            var dishes_data = DishesAPI.query({}, function() {
+            var dishes_data = DishesAPI.query({}, function () {
                 $scope.dishes = dishes_data["data"];
             });
 
-            var dinings_data = DiningsAPI.query({}, function() {
+            var dinings_data = DiningsAPI.query({}, function () {
                 $scope.dinings = dinings_data["data"];
             });
 
             google.maps.visualRefresh = true;
 
             $scope.map = {
-                center: {
-                    latitude: 21.0107,
-                    longitude: 105.8240
+                control: {},
+                options: {
+                    streetViewControl: false,
+                    panControl: false,
+                    maxZoom: 20,
+                    minZoom: 3
                 },
-                zoom: 12
+                center: {
+                    latitude: 21.0333333,
+                    longitude: 105.85
+                },
+                zoom: 12,
+                dragging: false,
+                bounds: {},
+                clickedMarker: {
+                    latitude: null,
+                    longitude: null
+                },
+                events: {
+                    click: function (mapModel, eventName, originalEventArgs) {
+                        var e = originalEventArgs[0];
+
+                        if (!$scope.map.clickedMarker) {
+                            $scope.map.clickedMarker = {
+                                latitude: e.latLng.lat(),
+                                longitude: e.latLng.lng()
+                            };
+                        }
+                        else {
+                            $scope.map.clickedMarker.latitude = e.latLng.lat();
+                            $scope.map.clickedMarker.longitude = e.latLng.lng();
+
+                            $scope.place.longitude = $scope.map.clickedMarker.longitude;
+                            $scope.place.latitude = $scope.map.clickedMarker.latitude;
+                        }
+                        $scope.$apply();
+                    }
+                }
             };
 
-            $scope.changeCity = function() {
+            $scope.changeCity = function () {
                 var city_id = $scope.place.city.id;
-                var district = DistrictsAPI.query({city_id: city_id}, function() {
+                var district = DistrictsAPI.query({city_id: city_id}, function () {
                     $scope.districts = district["data"];
                     if ($scope.old_city == city_id) {
                         $scope.place.district.id = $scope.old_district;
                     } else {
                         $scope.place.district.id = $scope.districts[0].id;
                     }
+                    $scope.map.center.latitude = $scope.place.city.latitude;
+                    $scope.map.center.longitude = $scope.place.city.longitude;
+
+                    $scope.place.latitude = $scope.place.city.latitude;
+                    $scope.place.longitude = $scope.place.city.longitude;
                 });
             };
+
+            $scope.changeDistrict = function () {
+                $scope.map.center.latitude = $scope.place.district.latitude;
+                $scope.map.center.longitude = $scope.place.district.longitude;
+
+                $scope.place.latitude = $scope.place.district.latitude;
+                $scope.place.longitude = $scope.place.district.longitude;
+            };
+
+
 
             $scope.createPlace = function (state) {
                 if (state == true) {
                     if (confirm("Do you want to create?")) {
                         $scope.place.district_id = $scope.place.district.id;
                         if ($scope.place.categories != null && $scope.place.categories.length > 0)
-                            $scope.place.category_ids = "["+$scope.place.categories.map(function(item) { return item.id; }).toString() + "]";
+                            $scope.place.category_ids = "[" + $scope.place.categories.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
 
                         if ($scope.place.cuisines != null && $scope.place.cuisines.length > 0)
-                            $scope.place.cuisine_ids = "["+$scope.place.cuisines.map(function(item) { return item.id; }).toString() + "]";
+                            $scope.place.cuisine_ids = "[" + $scope.place.cuisines.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
 
                         if ($scope.place.purposes != null && $scope.place.purposes.length > 0)
-                            $scope.place.purpose_ids = "["+$scope.place.purposes.map(function(item) { return item.id; }).toString() + "]";
+                            $scope.place.purpose_ids = "[" + $scope.place.purposes.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
 
                         if ($scope.place.properties != null && $scope.place.properties.length > 0)
-                            $scope.place.property_ids = "["+$scope.place.properties.map(function(item) { return item.id; }).toString() + "]";
+                            $scope.place.property_ids = "[" + $scope.place.properties.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
 
                         if ($scope.place.dishes != null && $scope.place.dishes.length > 0)
-                            $scope.place.dish_ids = "["+$scope.place.dishes.map(function(item) { return item.id; }).toString() + "]";
+                            $scope.place.dish_ids = "[" + $scope.place.dishes.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
 
                         if ($scope.place.dinings != null && $scope.place.dinings.length > 0)
-                            $scope.place.dining_ids = "["+$scope.place.dinings.map(function(item) { return item.id; }).toString() + "]";
+                            $scope.place.dining_ids = "[" + $scope.place.dinings.map(function (item) {
+                                return item.id;
+                            }).toString() + "]";
 
-                        $scope.place.longitude = 0;
-                        $scope.place.latitude = 0;
-//                        console.log($scope.place);
+
                         PlacesAPI.create($scope.place, function (data) {
                             // Success
                             $location.path('/place');
@@ -473,13 +575,13 @@ angular.module('dido.controllers', [])
             };
         }
     ])
-    .controller('PlaceSearchCtrl', ['$scope', 'UsersAPI', 'UserAPI', 'UserSearchAPI', '$location',
-        function ($scope, UsersAPI, UserAPI, UserSearchAPI, $location) {
+    .controller('PlaceSearchCtrl', ['$scope', 'PlacesAPI', 'PlaceAPI', 'PlaceSearchAPI', '$location',
+        function ($scope, PlacesAPI, PlaceAPI, PlaceSearchAPI, $location) {
             $scope.main_place_page = false;
             $scope.search_place_page = true;
             $scope.places = {};
 
-            $scope.listPlace = function() {
+            $scope.listPlace = function () {
                 $location.path('/place');
             };
 
@@ -487,11 +589,11 @@ angular.module('dido.controllers', [])
                 $location.path('/place-detail/' + placeId);
             };
 
-            $scope.deleteUser = function (placeId) {
+            $scope.deletePlace = function (placeId) {
                 if (confirm("Do you want to delete this place?")) {
-                    UserAPI.delete({ id: placeId }, function (data) {
+                    PlaceAPI.delete({ id: placeId }, function (data) {
                         // Success
-                        UsersAPI.query(function (data2) {
+                        PlacesAPI.query(function (data2) {
                             $scope.places = data2["data"];
                         });
                     }, function (error) {
@@ -502,9 +604,9 @@ angular.module('dido.controllers', [])
                 }
             };
 
-            $scope.searchPlace = function(keyword) {
-                keyword = keyword == undefined ? '*':keyword;
-                UserSearchAPI.query({keyword: keyword}, function (value, headers) {
+            $scope.searchPlace = function (keyword) {
+                keyword = keyword == undefined ? '*' : keyword;
+                PlaceSearchAPI.query({keyword: keyword}, function (value, headers) {
                     // Success
                     $scope.places = value["data"];
 
@@ -514,7 +616,7 @@ angular.module('dido.controllers', [])
                     $scope.total_items = parseInt(res_headers["x-total"]) || 0;
                     $scope.current_page = parseInt(res_headers["x-page"]) || 0;
 
-                    $scope.$watch('current_page', function(newPage){
+                    $scope.$watch('current_page', function (newPage) {
                         if ($scope.current_page > 0)
                             changePage(newPage, keyword);
                     });
@@ -523,8 +625,8 @@ angular.module('dido.controllers', [])
                 });
             };
 
-            var changePage = function(page, keyword) {
-                UserSearchAPI.query({keyword: keyword, page: page}, function (value, headers) {
+            var changePage = function (page, keyword) {
+                PlaceSearchAPI.query({keyword: keyword, page: page}, function (value, headers) {
                     // Success
                     $scope.places = value["data"];
                 }, function (response) {
@@ -533,12 +635,11 @@ angular.module('dido.controllers', [])
             }
         }
     ])//DONE PLACE CONTROLLERS
-    .controller('FeedbackCtrl', [
-        function ($scope) {
-        }
-    ])
-    .controller('ReportCtrl', [
-        function ($scope) {
+    .controller('ReportCtrl', ['$scope', 'ReportsAPI', '$location',
+        function ($scope, ReportsAPI) {
+            var reports_data = ReportsAPI.query({}, function() {
+                $scope.reports = reports_data['data']['reports'];
+            });
         }
     ])
     .controller('QuestionCtrl', [

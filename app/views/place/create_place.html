@@ -43,13 +43,14 @@
                             <div class="col-sm-8">
                                 <label class="control-label">Latitude/Longitude</label>
                                 <div class="controls">
-                                    <div class="input-group col-sm-6">
+                                    <div class="input-group col-sm-8">
                                         <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                         <input type="number" step="any" class="form-control" ng-model="place.latitude">
                                         <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                         <input type="number" step="any" class="form-control" ng-model="place.longitude">
                                     </div>
                                 </div>
+                                <span class="alert alert-success"><strong>Click to map to choose location</strong></span>
                                 <google-map
                                         center="map.center"
                                         zoom="map.zoom"
@@ -60,10 +61,13 @@
                                         options="map.options"
                                         pan="true"
                                         control="map.control">
-                                        <marker coords='map.center'
-                                                click='onMarkerClicked()'
-                                                events='getPosition()'>
+                                    <div ng-init="opts = {animation:1}">
+                                        <marker coords="map.clickedMarker" options="opts">
+                                            <window isIconVisibleOnClick="true">
+                                                You choosed a location.
+                                            </window>
                                         </marker>
+                                    </div>
                                 </google-map>
                             </div>
                         </div>
@@ -105,7 +109,8 @@
                                             data-placeholder="Choose a District"
                                             no-results-text="'Could not find any district!'"
                                             ng-model="place.district"
-                                            ng-options="v.district for v in districts track by v.id">
+                                            ng-options="v.district for v in districts track by v.id"
+                                            ng-change="changeDistrict()">
                                     </select>
                                 </div>
                             </div>
@@ -129,7 +134,7 @@
                                 <label class="control-label">Direction Guide</label>
                                 <div class="controls">
                                     <textarea id="limit" rows="6" style="width:100%"
-                                              ng-bind-html="place.direction_guide"></textarea>
+                                              ng-model="place.direction_guide"></textarea>
                                 </div>
                             </div>
                         </div>

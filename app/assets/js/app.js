@@ -47,6 +47,9 @@ var DidoCP = angular.module('dido', [
         }).when('/place-creation/', {
             templateUrl: 'views/place/create_place.html',
             controller: 'PlaceCreationCtrl'
+        }).when('/place-search/', {
+            templateUrl: 'views/place/place.html',
+            controller: 'PlaceSearchCtrl'
         }).when('/question', {
             templateUrl: 'views/create_user.html',
             controller: 'QuestionCtrl'
@@ -74,7 +77,6 @@ DidoCP.filter('cut', function () {
                 value = value.substr(0, lastspace);
             }
         }
-
         return value + (tail || ' …');
     };
 });
