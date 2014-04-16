@@ -1,8 +1,8 @@
 {
-  "name": "angular-seed",
-  "description": "A starter project for AngularJS",
+  "name": "dido-admin",
+  "description": "DiDo-Admin",
   "version": "0.0.0",
-  "homepage": "https://github.com/angular/angular-seed",
+  "homepage": "https://github.com/hnq90/dido-admin",
   "license": "MIT",
   "private": true,
   "dependencies": {
