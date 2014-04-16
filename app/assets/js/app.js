@@ -18,11 +18,7 @@ var DidoCP = angular.module('dido', [
 ]) //ROUTES CONFIG
     .config(['$routeProvider',
     function($routeProvider) {
-        $routeProvider.when('/login', {
-            templateUrl: 'views/others/login_form.html',
-            controller: 'AuthenCtrl',
-            isFree: true
-        }).when('/home', {
+        $routeProvider.when('/home', {
             templateUrl: 'views/others/home.html',
             controller: 'DashboardCtrl',
             isFree: false
@@ -67,26 +63,32 @@ var DidoCP = angular.module('dido', [
             controller: 'PlaceSearchCtrl',
             isFree: false
         }).when('/question', {
-            templateUrl: 'views/create_user.html',
+            templateUrl: 'views/question/question.html',
             controller: 'QuestionCtrl',
             isFree: false
         }).when('/answer', {
-            templateUrl: 'views/create_user.html',
+            templateUrl: 'views/answer/answer.html',
             controller: 'AnswerCtrl',
             isFree: false
         }).otherwise({
-            redirectTo: '/login'
+            redirectTo: '/home'
         });
     }
-]).run( function($rootScope, $location, $cookies) {
-        $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-            if (!next.$$route.isFree && $cookies.logged == true) {
-                console.log($cookies.logged);
-            } else {
-                $location.path('/login');
-            }
-        });
-    });
+]);
+//.when('/login', {
+//            templateUrl: 'views/others/login_form.html',
+//            controller: 'AuthenCtrl',
+//            isFree: true
+//        })
+//.run( function($rootScope, $location, $cookies) {
+//        $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+//            if (!next.$$route.isFree && $cookies.logged == true) {
+//                console.log($cookies.logged);
+//            } else {
+//                $location.path('/login');
+//            }
+//       });
+//    });
 
 DidoCP.filter('cut', function () {
     return function (value, wordwise, max, tail) {

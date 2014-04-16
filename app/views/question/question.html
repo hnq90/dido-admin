@@ -3,47 +3,55 @@
         <div class="col-lg-12">
             <div class="box">
                 <div class="box-header" data-original-title>
-                    <h2><i class="fa fa-user"></i><span class="break"></span>Members</h2>
-
-                    <div class="box-icon">
-                        <a href="../../table.html#" class="btn-setting"><i class="fa fa-wrench"></i></a>
-                        <a href="../../table.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
-                        <a href="../../table.html#" class="btn-close"><i class="fa fa-times"></i></a>
-                    </div>
+                    <h2><i class="fa fa-user"></i><span class="break"></span>Questions</h2>
                 </div>
                 <div class="box-content">
+                    <span class="label label-success" ng-show="total_items">{{'Total Records: ' + total_items + ' | Total Pages: ' + total_page}}</span>
                     <table class="table table-striped table-bordered bootstrap-datatable datatable">
                         <thead>
                         <tr>
-                            <th>Email</th>
-                            <th>First Name</th>
-                            <th>Sex</th>
-                            <th>Status</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>User</th>
+                            <th>Answers</th>
+                            <th>Mark Answered</th>
+                            <th>Closed</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="user in users">
-                            <td>{{user.email}}</td>
-                            <td class="center">{{user.firstname==null?'Not updated':user.firstname}}</td>
-                            <td class="center">{{user.sex==0?'Female':'Male'}}</td>
+                        <tr ng-repeat="q in questions">
+                            <td>{{q.title | cut:true:50:'...'}}</td>
+                            <td>
+                                <ul ng-show="q.city" style="list-style: decimal-leading-zero">
+                                    <strong>City:</strong>
+                                    <li>{{q.city.city}}</li>
+                                </ul>
+                                <ul ng-show="q.districts" style="list-style: decimal-leading-zero">
+                                    <strong>District:</strong>
+                                    <li ng-repeat="d in q.districts">{{d.district}}</li>
+                                </ul>
+                                <span class="label label-danger" ng-hide="q.city && q.districts">No Data</span>
+                            </td>
+                            <td class="center">{{q.user.email}}</td>
+                            <td class="center">{{q.num_of_answers}}</td>
                             <td class="center">
-                                <span class="label {{user.isbanned == true ? 'label-important':'label-success'}}">{{user.isbanned==true?'Banned':'Active'}}</span>
+                                <span class="label {{q.is_mark_answered == true ? 'label-important':'label-success'}}">{{q.is_mark_answered==true?'Yes':'No'}}</span>
                             </td>
                             <td class="center">
-                                <a class="btn btn-success" href="#/users/view/{{user.id}}">
-                                    <i class="fa fa-search-plus "></i>
-                                </a>
-                                <a class="btn btn-info" href="#/users/edit/{{user.id}}">
-                                    <i class="fa fa-edit "></i>
-                                </a>
-                                <a class="btn btn-danger" href="#/users/delete/{{user.id}}">
-                                    <i class="fa fa-trash-o "></i>
+                                <span class="label {{q.is_closed == true ? 'label-important':'label-success'}}">{{q.is_closed==true?'Yes':'No'}}</span>
+                            </td>
+                            <td class="center">
+                                <a class="btn btn-danger" ng-click="deleteQuestion(q.id)">
+                                    <i class="fa fa-trash-o"></i>
                                 </a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <pagination total-items="total_items" page="current_page" max-size="max_size"
+                                class="pagination pagination-centered pagination-sm" boundary-links="true"
+                                rotate="false" num-pages="num_pages"></pagination>
                 </div>
             </div>
         </div>

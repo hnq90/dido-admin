@@ -9,8 +9,8 @@ var dido_headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     },
-    base_url = 'http://localhost:3000',
-//    base_url = 'http://dido.energeeks.com',
+//    base_url = 'http://localhost:3000',
+    base_url = 'http://dido.energeeks.com',
     dashboard_info = '/api/admin/dashboard_info',
     user_creation_api = '/api/v1/users/',
     user_api = '/api/users/',
@@ -25,9 +25,11 @@ var dido_headers = {
     dish_api = '/api/dishes/',
     report_api = '/api/reports/',
     sign_in_api = 'sign_in',
-    check_token_api = '/api/token';
+    check_token_api = '/api/token',
+    question_api = '/api/questions/',
+    answer_api = '/api/answers/';
 
-    dido_api.factory('LoginAPI', ['$resource',
+dido_api.factory('LoginAPI', ['$resource',
     function ($resource) {
         return $resource(base_url + user_creation_api + sign_in_api, {}, {
             login: {
@@ -228,10 +230,58 @@ var dido_headers = {
             });
         }])
     .factory('ReportsAPI', ['$resource',
-        function($resource) {
+        function ($resource) {
             return $resource(base_url + report_api + 'admin_all', {}, {
                 query: {
                     method: 'GET',
+                    headers: dido_headers
+                }
+            });
+        }])
+    .factory('SolveReportsAPI', ['$resource',
+        function ($resource) {
+            return $resource(base_url + report_api + ':id', {}, {
+                solve: {
+                    method: 'PUT',
+                    params: {
+                        id: '@id'
+                    },
+                    headers: dido_headers
+                }
+            });
+        }])
+    .factory('QuestionsListAPI', ['$resource',
+        function ($resource) {
+            return $resource(base_url + question_api + 'list', {}, {
+                query: {
+                    method: 'GET',
+                    headers: dido_headers
+                }
+            });
+        }])
+    .factory('QuestionsDelAPI', ['$resource',
+        function ($resource) {
+            return $resource(base_url + question_api + 'del', {}, {
+                destroy: {
+                    method: 'DELETE',
+                    headers: dido_headers
+                }
+            });
+        }])
+    .factory('AnswersListAPI', ['$resource',
+        function ($resource) {
+            return $resource(base_url + answer_api + 'list', {}, {
+                query: {
+                    method: 'GET',
+                    headers: dido_headers
+                }
+            });
+        }])
+    .factory('AnswersDelAPI', ['$resource',
+        function ($resource) {
+            return $resource(base_url + answer_api + 'del', {}, {
+                destroy: {
+                    method: 'DELETE',
                     headers: dido_headers
                 }
             });

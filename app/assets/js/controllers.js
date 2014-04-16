@@ -2,50 +2,50 @@
 
 /* Controllers */
 angular.module('dido.controllers', [])
-    .controller('AuthenCtrl', ['$scope', '$cookies', '$rootScope', '$location', 'LoginAPI', 'TokenAPI',
-        function ($scope, $cookies, $rootScope, $location, LoginAPI, TokenAPI) {
-            if ($cookies.auth_token != null) {
-                var current_token = $cookies.auth_token;
-                var current_id = $cookies.user_id;
-                var current_email = $cookies.user_email;
-
-                var check_token = TokenAPI.check({auth_token: current_token, user_id: current_id},function (data) {
-                    if (check_token['data']) {
-                        $cookies.logged = true;
-                        $location.path('/home');
-                    } else {
-                        $cookies.logged = false;
-                        $location.path('/login');
-                    }
-                });
-            }
-
-            $scope.login = function(email, password) {
-                var user = {
-                    email: email,
-                    password: password
-                };
-                var login_data = LoginAPI.login({user: user}, function(data){
-                    var rev_data = data['data'];
-                    var auth_token = rev_data.auth_token;
-
-                    if (rev_data.user.id == 5) {
-                        $cookies.logged = true;
-                        $cookies.auth_token = auth_token;
-                        $cookies.user_id = rev_data.user.id;
-                        $cookies.user_email = rev_data.user.email;
-                        $location.path('/home');
-                    }
-                    else{
-                        $cookies.logged = false;
-                        $location.path('/login');
-                    }
-                }, function(error) {
-                    $location.path('/login');
-                });
-            };
-        }
-    ])
+//    .controller('AuthenCtrl', ['$scope', '$cookies', '$rootScope', '$location', 'LoginAPI', 'TokenAPI',
+//        function ($scope, $cookies, $rootScope, $location, LoginAPI, TokenAPI) {
+//            if ($cookies.auth_token != null) {
+//                var current_token = $cookies.auth_token;
+//                var current_id = $cookies.user_id;
+//                var current_email = $cookies.user_email;
+//
+//                var check_token = TokenAPI.check({auth_token: current_token, user_id: current_id},function (data) {
+//                    if (check_token['data']) {
+//                        $cookies.logged = true;
+//                        $location.path('/home');
+//                    } else {
+//                        $cookies.logged = false;
+//                        $location.path('/login');
+//                    }
+//                });
+//            }
+//
+//            $scope.login = function(email, password) {
+//                var user = {
+//                    email: email,
+//                    password: password
+//                };
+//                var login_data = LoginAPI.login({user: user}, function(data){
+//                    var rev_data = data['data'];
+//                    var auth_token = rev_data.auth_token;
+//
+//                    if (rev_data.user.id == 5) {
+//                        $cookies.logged = true;
+//                        $cookies.auth_token = auth_token;
+//                        $cookies.user_id = rev_data.user.id;
+//                        $cookies.user_email = rev_data.user.email;
+//                        $location.path('/home');
+//                    }
+//                    else{
+//                        $cookies.logged = false;
+//                        $location.path('/login');
+//                    }
+//                }, function(error) {
+//                    $location.path('/login');
+//                });
+//            };
+//        }
+//    ])
     .controller('DashboardCtrl', ['$scope', 'DashboardInfo',
         function ($scope, DashboardInfo) {
             var datas = DashboardInfo.get(function () {
@@ -185,7 +185,7 @@ angular.module('dido.controllers', [])
                 }, function (response) {
                     // Error
                 });
-            }
+            };
         }
     ])
     .controller('UserDetailCtrl', ['$scope', '$routeParams', 'UserAPI', '$location',
@@ -679,18 +679,139 @@ angular.module('dido.controllers', [])
             }
         }
     ])//DONE PLACE CONTROLLERS
-    .controller('ReportCtrl', ['$scope', 'ReportsAPI', '$location',
-        function ($scope, ReportsAPI) {
-            var reports_data = ReportsAPI.query({}, function() {
-                $scope.reports = reports_data['data']['reports'];
+    .controller('ReportCtrl', ['$scope', 'ReportsAPI', 'SolveReportsAPI', '$location',
+        function ($scope, ReportsAPI, SolveReportsAPI, $location) {
+            ReportsAPI.query({}, function (value, headers) {
+                // Success
+                $scope.reports = value['data']['reports'];
+
+                var res_headers = headers();
+
+                $scope.max_size = 5;
+                $scope.total_page = parseInt(res_headers["x-total-pages"]) || 0;
+                $scope.total_items = parseInt(res_headers["x-total"]) || 0;
+                $scope.current_page = parseInt(res_headers["x-page"]) || 0;
+
+                $scope.$watch('current_page', function (newPage) {
+                    if ($scope.current_page > 0)
+                        changePage(newPage);
+                });
+            }, function (response) {
+                // Error
             });
+
+            var changePage = function (page) {
+                ReportsAPI.query({page: page}, function (value, headers) {
+                    // Success
+                    $scope.reports = value['data']['reports'];
+                }, function (response) {
+                    // Error
+                });
+            };
+
+            $scope.solveReport = function(id) {
+                console.log(SolveReportsAPI.solve({id: id}, function (data) {
+                    // Success
+                    $location.path('/report');
+                }, function (error) {
+                    // Error
+                    $scope.has_error = true;
+                    $scope.errors = error.data.message;
+                }));
+            };
         }
     ])
-    .controller('QuestionCtrl', [
-        function ($scope) {
+    .controller('QuestionCtrl', ['$scope', 'QuestionsListAPI', 'QuestionsDelAPI', '$location',
+        function ($scope, QuestionsListAPI,QuestionsDelAPI, $location) {
+
+            QuestionsListAPI.query({order_by: "date"}, function (value, headers) {
+                // Success
+                $scope.questions = value["data"];
+
+                var res_headers = headers();
+
+                $scope.max_size = 5;
+                $scope.total_page = parseInt(res_headers["x-total-pages"]) || 0;
+                $scope.total_items = parseInt(res_headers["x-total"]) || 0;
+                $scope.current_page = parseInt(res_headers["x-page"]) || 0;
+
+                $scope.$watch('current_page', function (newPage) {
+                    if ($scope.current_page > 0)
+                        changePage(newPage);
+                });
+            }, function (response) {
+                // Error
+            });
+
+            var changePage = function (page) {
+                QuestionsListAPI.query({order_by: "date", page: page}, function (value, headers) {
+                    // Success
+                    $scope.questions = value["data"];
+                }, function (response) {
+                    // Error
+                });
+            };
+
+            $scope.deleteQuestion = function(id) {
+                if (confirm("Do you really want to delete this question?")) {
+                    QuestionsDelAPI.destroy({ id: id }, function (data) {
+                        // Success
+                        QuestionsListAPI.query({order_by: 'date'},function (data2) {
+                            $scope.questions = data2["data"];
+                        });
+                    }, function (error) {
+                        // Error
+                        $scope.has_error = true;
+                        $scope.errors = error.data.message;
+                    });
+                }
+            }
         }
     ])
-    .controller('AnswerCtrl', [
-        function ($scope) {
+    .controller('AnswerCtrl', ['$scope', 'AnswersListAPI', 'AnswersDelAPI', '$location',
+        function ($scope, AnswersListAPI, AnswersDelAPI, $location) {
+
+            AnswersListAPI.query({}, function (value, headers) {
+                // Success
+                $scope.answers = value["data"];
+
+                var res_headers = headers();
+
+                $scope.max_size = 5;
+                $scope.total_page = parseInt(res_headers["x-total-pages"]) || 0;
+                $scope.total_items = parseInt(res_headers["x-total"]) || 0;
+                $scope.current_page = parseInt(res_headers["x-page"]) || 0;
+
+                $scope.$watch('current_page', function (newPage) {
+                    if ($scope.current_page > 0)
+                        changePage(newPage);
+                });
+            }, function (response) {
+                // Error
+            });
+
+            var changePage = function (page) {
+                AnswersListAPI.query({page: page}, function (value, headers) {
+                    // Success
+                    $scope.answers = value["data"];
+                }, function (response) {
+                    // Error
+                });
+            };
+
+            $scope.deleteAnswer = function(id) {
+                if (confirm("Do you really want to delete this answer?")) {
+                    AnswersDelAPI.destroy({ id: id }, function (data) {
+                        // Success
+                        AnswersListAPI.query({},function (data2) {
+                            $scope.answers = data2["data"];
+                        });
+                    }, function (error) {
+                        // Error
+                        $scope.has_error = true;
+                        $scope.errors = error.data.message;
+                    });
+                }
+            }
         }
     ]);
