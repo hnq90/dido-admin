@@ -7,6 +7,7 @@ var DidoCP = angular.module('dido', [
 //    'ngAnimate',
     'ngSanitize',
     'ui.bootstrap',
+    'ngCookies',
     'chieffancypants.loadingBar',
     'google-maps',
     'localytics.directives',
@@ -17,50 +18,75 @@ var DidoCP = angular.module('dido', [
 ]) //ROUTES CONFIG
     .config(['$routeProvider',
     function($routeProvider) {
-        $routeProvider.when('/home', {
+        $routeProvider.when('/login', {
+            templateUrl: 'views/others/login_form.html',
+            controller: 'AuthenCtrl',
+            isFree: true
+        }).when('/home', {
             templateUrl: 'views/others/home.html',
-            controller: 'DashboardCtrl'
+            controller: 'DashboardCtrl',
+            isFree: false
         }).when('/report', {
             templateUrl: 'views/others/report.html',
-            controller: 'ReportCtrl'
+            controller: 'ReportCtrl',
+            isFree: false
         }).when('/feedback', {
             templateUrl: 'views/others/feedback.html',
-            controller: 'FeedbackCtrl'
+            controller: 'FeedbackCtrl',
+            isFree: false
         }).when('/user', {
             templateUrl: 'views/user/user.html',
-            controller: 'UserCtrl'
+            controller: 'UserCtrl',
+            isFree: false
         }).when('/user-detail/:id', {
             templateUrl: 'views/user/edit_user.html',
-            controller: 'UserDetailCtrl'
+            controller: 'UserDetailCtrl',
+            isFree: false
         }).when('/user-creation/', {
             templateUrl: 'views/user/create_user.html',
-            controller: 'UserCreationCtrl'
+            controller: 'UserCreationCtrl',
+            isFree: false
         }).when('/user-search/', {
             templateUrl: 'views/user/user.html',
-            controller: 'UserSearchCtrl'
+            controller: 'UserSearchCtrl',
+            isFree: false
         }).when('/place', {
             templateUrl: 'views/place/place.html',
-            controller: 'PlaceCtrl'
+            controller: 'PlaceCtrl',
+            isFree: false
         }).when('/place-detail/:id', {
             templateUrl: 'views/place/edit_place.html',
-            controller: 'PlaceDetailCtrl'
+            controller: 'PlaceDetailCtrl',
+            isFree: false
         }).when('/place-creation/', {
             templateUrl: 'views/place/create_place.html',
-            controller: 'PlaceCreationCtrl'
+            controller: 'PlaceCreationCtrl',
+            isFree: false
         }).when('/place-search/', {
             templateUrl: 'views/place/place.html',
-            controller: 'PlaceSearchCtrl'
+            controller: 'PlaceSearchCtrl',
+            isFree: false
         }).when('/question', {
             templateUrl: 'views/create_user.html',
-            controller: 'QuestionCtrl'
+            controller: 'QuestionCtrl',
+            isFree: false
         }).when('/answer', {
             templateUrl: 'views/create_user.html',
-            controller: 'AnswerCtrl'
+            controller: 'AnswerCtrl',
+            isFree: false
         }).otherwise({
-            redirectTo: '/home'
+            redirectTo: '/login'
         });
     }
-]);
+]).run( function($rootScope, $location, $cookies) {
+        $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+            if (!next.$$route.isFree && $cookies.logged == true) {
+                console.log($cookies.logged);
+            } else {
+                $location.path('/login');
+            }
+        });
+    });
 
 DidoCP.filter('cut', function () {
     return function (value, wordwise, max, tail) {

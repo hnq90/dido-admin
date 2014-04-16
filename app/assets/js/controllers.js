@@ -2,6 +2,50 @@
 
 /* Controllers */
 angular.module('dido.controllers', [])
+    .controller('AuthenCtrl', ['$scope', '$cookies', '$rootScope', '$location', 'LoginAPI', 'TokenAPI',
+        function ($scope, $cookies, $rootScope, $location, LoginAPI, TokenAPI) {
+            if ($cookies.auth_token != null) {
+                var current_token = $cookies.auth_token;
+                var current_id = $cookies.user_id;
+                var current_email = $cookies.user_email;
+
+                var check_token = TokenAPI.check({auth_token: current_token, user_id: current_id},function (data) {
+                    if (check_token['data']) {
+                        $cookies.logged = true;
+                        $location.path('/home');
+                    } else {
+                        $cookies.logged = false;
+                        $location.path('/login');
+                    }
+                });
+            }
+
+            $scope.login = function(email, password) {
+                var user = {
+                    email: email,
+                    password: password
+                };
+                var login_data = LoginAPI.login({user: user}, function(data){
+                    var rev_data = data['data'];
+                    var auth_token = rev_data.auth_token;
+
+                    if (rev_data.user.id == 5) {
+                        $cookies.logged = true;
+                        $cookies.auth_token = auth_token;
+                        $cookies.user_id = rev_data.user.id;
+                        $cookies.user_email = rev_data.user.email;
+                        $location.path('/home');
+                    }
+                    else{
+                        $cookies.logged = false;
+                        $location.path('/login');
+                    }
+                }, function(error) {
+                    $location.path('/login');
+                });
+            };
+        }
+    ])
     .controller('DashboardCtrl', ['$scope', 'DashboardInfo',
         function ($scope, DashboardInfo) {
             var datas = DashboardInfo.get(function () {

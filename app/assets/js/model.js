@@ -9,8 +9,8 @@ var dido_headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
     },
-//    base_url = 'http://localhost:3000',
-    base_url = 'http://dido.energeeks.com',
+    base_url = 'http://localhost:3000',
+//    base_url = 'http://dido.energeeks.com',
     dashboard_info = '/api/admin/dashboard_info',
     user_creation_api = '/api/v1/users/',
     user_api = '/api/users/',
@@ -23,17 +23,37 @@ var dido_headers = {
     property_api = '/api/properties/',
     dining_api = '/api/dinings/',
     dish_api = '/api/dishes/',
-    report_api = '/api/reports/';
+    report_api = '/api/reports/',
+    sign_in_api = 'sign_in',
+    check_token_api = '/api/token';
 
-dido_api.factory('DashboardInfo', ['$resource',
+    dido_api.factory('LoginAPI', ['$resource',
     function ($resource) {
-        return $resource(base_url + dashboard_info, {}, {
-            get: {
-                method: 'GET',
+        return $resource(base_url + user_creation_api + sign_in_api, {}, {
+            login: {
+                method: 'POST',
                 headers: dido_headers
             }
         });
     }])
+    .factory('TokenAPI', ['$resource',
+        function ($resource) {
+            return $resource(base_url + check_token_api, {}, {
+                check: {
+                    method: 'GET',
+                    headers: dido_headers
+                }
+            });
+        }])
+    .factory('DashboardInfo', ['$resource',
+        function ($resource) {
+            return $resource(base_url + dashboard_info, {}, {
+                get: {
+                    method: 'GET',
+                    headers: dido_headers
+                }
+            });
+        }])
     .factory('UserCreationAPI', ['$resource',
         function ($resource) {
             return $resource(base_url + user_creation_api, {}, {
