@@ -261,9 +261,12 @@ dido_api.factory('LoginAPI', ['$resource',
         }])
     .factory('QuestionsDelAPI', ['$resource',
         function ($resource) {
-            return $resource(base_url + question_api + 'del', {}, {
+            return $resource(base_url + question_api + ':id', {}, {
                 destroy: {
                     method: 'DELETE',
+                    params: {
+                        id: '@id'
+                    },
                     headers: dido_headers
                 }
             });
@@ -279,7 +282,7 @@ dido_api.factory('LoginAPI', ['$resource',
         }])
     .factory('AnswersDelAPI', ['$resource',
         function ($resource) {
-            return $resource(base_url + answer_api + 'del', {}, {
+            return $resource(base_url + answer_api + 'admin_del', {}, {
                 destroy: {
                     method: 'DELETE',
                     headers: dido_headers

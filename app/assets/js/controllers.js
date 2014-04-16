@@ -317,8 +317,7 @@ angular.module('dido.controllers', [])
     ])
     .controller('PlaceDetailCtrl', ['$scope', '$routeParams', 'PlaceAPI', 'DistrictsAPI', 'CitiesAPI',
         'CuisinesAPI', 'CategoriesAPI', 'PurposesAPI', 'PropertiesAPI', 'DishesAPI', 'DiningsAPI', '$location',
-        function ($scope, $routeParams, PlaceAPI, DistrictsAPI, CitiesAPI,
-                  CuisinesAPI, CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
+        function ($scope, $routeParams, PlaceAPI, DistrictsAPI, CitiesAPI, CuisinesAPI, CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
 
             var place = PlaceAPI.show({id: $routeParams.id}, function () {
                 $scope.place = place["data"];
@@ -363,6 +362,7 @@ angular.module('dido.controllers', [])
             var dinings_data = DiningsAPI.query({}, function () {
                 $scope.dinings = dinings_data["data"];
             });
+
 
             $scope.changeCity = function () {
                 var city_id = $scope.place.city.id;
@@ -442,8 +442,7 @@ angular.module('dido.controllers', [])
     ])
     .controller('PlaceCreationCtrl', ['$scope', 'PlaceAPI', 'PlacesAPI', 'DistrictsAPI', 'CitiesAPI',
         'CuisinesAPI', 'CategoriesAPI', 'PurposesAPI', 'PropertiesAPI', 'DishesAPI', 'DiningsAPI', '$location',
-        function ($scope, PlaceAPI, PlacesAPI, DistrictsAPI, CitiesAPI,
-                  CuisinesAPI, CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
+        function ($scope, PlaceAPI, PlacesAPI, DistrictsAPI, CitiesAPI, CuisinesAPI, CategoriesAPI, PurposesAPI, PropertiesAPI, DishesAPI, DiningsAPI, $location) {
 
             $scope.place = {};
             $scope.place.latitude = 0;
@@ -556,7 +555,6 @@ angular.module('dido.controllers', [])
                 $scope.place.latitude = $scope.place.district.latitude;
                 $scope.place.longitude = $scope.place.district.longitude;
             };
-
 
 
             $scope.createPlace = function (state) {
@@ -709,7 +707,7 @@ angular.module('dido.controllers', [])
                 });
             };
 
-            $scope.solveReport = function(id) {
+            $scope.solveReport = function (id) {
                 console.log(SolveReportsAPI.solve({id: id}, function (data) {
                     // Success
                     $location.path('/report');
@@ -722,7 +720,7 @@ angular.module('dido.controllers', [])
         }
     ])
     .controller('QuestionCtrl', ['$scope', 'QuestionsListAPI', 'QuestionsDelAPI', '$location',
-        function ($scope, QuestionsListAPI,QuestionsDelAPI, $location) {
+        function ($scope, QuestionsListAPI, QuestionsDelAPI, $location) {
 
             QuestionsListAPI.query({order_by: "date"}, function (value, headers) {
                 // Success
@@ -752,11 +750,11 @@ angular.module('dido.controllers', [])
                 });
             };
 
-            $scope.deleteQuestion = function(id) {
+            $scope.deleteQuestion = function (id) {
                 if (confirm("Do you really want to delete this question?")) {
                     QuestionsDelAPI.destroy({ id: id }, function (data) {
                         // Success
-                        QuestionsListAPI.query({order_by: 'date'},function (data2) {
+                        QuestionsListAPI.query({order_by: 'date'}, function (data2) {
                             $scope.questions = data2["data"];
                         });
                     }, function (error) {
@@ -799,11 +797,11 @@ angular.module('dido.controllers', [])
                 });
             };
 
-            $scope.deleteAnswer = function(id) {
+            $scope.deleteAnswer = function (id) {
                 if (confirm("Do you really want to delete this answer?")) {
                     AnswersDelAPI.destroy({ id: id }, function (data) {
                         // Success
-                        AnswersListAPI.query({},function (data2) {
+                        AnswersListAPI.query({}, function (data2) {
                             $scope.answers = data2["data"];
                         });
                     }, function (error) {

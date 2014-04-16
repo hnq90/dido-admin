@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "DiDo Admin"
-AuthUserFile .htpasswd
-Require valid-user

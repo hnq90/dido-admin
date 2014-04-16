@@ -10,6 +10,7 @@
                     <table class="table table-striped table-bordered bootstrap-datatable datatable">
                         <thead>
                         <tr>
+                            <th>No</th>
                             <th>Title</th>
                             <th>Location</th>
                             <th>User</th>
@@ -21,6 +22,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="q in questions">
+                            <td>{{$index+1}}</td>
                             <td>{{q.title | cut:true:50:'...'}}</td>
                             <td>
                                 <ul ng-show="q.city" style="list-style: decimal-leading-zero">
