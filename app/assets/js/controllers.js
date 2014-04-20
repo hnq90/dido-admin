@@ -619,6 +619,7 @@ angular.module('dido.controllers', [])
         function ($scope, PlacesAPI, PlaceAPI, PlaceSearchAPI, $location) {
             $scope.main_place_page = false;
             $scope.search_place_page = true;
+            $scope.is_active_place = true;
             $scope.places = {};
 
             $scope.listPlace = function () {
@@ -645,8 +646,9 @@ angular.module('dido.controllers', [])
             };
 
             $scope.searchPlace = function (keyword) {
-                keyword = keyword == undefined ? '*' : keyword;
-                PlaceSearchAPI.query({keyword: keyword}, function (value, headers) {
+                keyword = keyword == undefined ? '*' : keyword;      
+                var is_active = $scope.is_active_place;
+                PlaceSearchAPI.query({keyword: keyword, active: is_active}, function (value, headers) {
                     // Success
                     $scope.places = value["data"];
 
@@ -658,15 +660,14 @@ angular.module('dido.controllers', [])
 
                     $scope.$watch('current_page', function (newPage) {
                         if ($scope.current_page > 0)
-                            changePage(newPage, keyword);
+                            changePage(newPage, keyword, is_active);
                     });
                 }, function (response) {
                     // Error
                 });
             };
-
-            var changePage = function (page, keyword) {
-                PlaceSearchAPI.query({keyword: keyword, page: page}, function (value, headers) {
+            var changePage = function (page, keyword, active) {
+                PlaceSearchAPI.query({keyword: keyword, page: page, active: active}, function (value, headers) {
                     // Success
                     $scope.places = value["data"];
                 }, function (response) {
