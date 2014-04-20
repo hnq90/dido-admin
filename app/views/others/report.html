@@ -26,7 +26,7 @@
                             <td>{{report.report_action_id}}</td>
                             <td class="center">{{report.solved}}</td>
                             <td class="center">
-                                <a class="btn btn-danger" ng-click="solveReport(report.id)">
+                                <a class="btn {{report.solved==true?'btn-success':'btn-danger'}}" ng-click="report.solved==true?'#':solveReport(report.id)">
                                     <i class="fa fa-flag-o"></i>
                                 </a>
                             </td>

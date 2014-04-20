@@ -413,8 +413,6 @@ angular.module('dido.controllers', [])
                             $scope.place.dining_ids = "[" + $scope.place.dinings.map(function (item) {
                                 return item.id;
                             }).toString() + "]";
-
-//                        console.log(current_info);
                         PlaceAPI.update(current_info, function (data) {
                             // Success
                             $location.path('/place');
@@ -708,14 +706,16 @@ angular.module('dido.controllers', [])
             };
 
             $scope.solveReport = function (id) {
-                console.log(SolveReportsAPI.solve({id: id}, function (data) {
+                SolveReportsAPI.solve({id: id}, function (data) {
                     // Success
-                    $location.path('/report');
+					ReportsAPI.query({}, function (value, headers) {
+						$scope.reports = value['data']['reports'];
+					});
                 }, function (error) {
                     // Error
                     $scope.has_error = true;
                     $scope.errors = error.data.message;
-                }));
+                });
             };
         }
     ])
