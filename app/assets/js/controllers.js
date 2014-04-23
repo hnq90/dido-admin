@@ -720,8 +720,8 @@ angular.module('dido.controllers', [])
             };
         }
     ])
-    .controller('QuestionCtrl', ['$scope', 'QuestionsListAPI', 'QuestionsDelAPI', '$location',
-        function ($scope, QuestionsListAPI, QuestionsDelAPI, $location) {
+    .controller('QuestionCtrl', ['$scope', 'QuestionsListAPI', 'QuestionsDelAPI', '$route', '$location',
+        function ($scope, QuestionsListAPI, QuestionsDelAPI, $route, $location) {
 
             QuestionsListAPI.query({order_by: "date"}, function (value, headers) {
                 // Success
@@ -758,6 +758,7 @@ angular.module('dido.controllers', [])
                         QuestionsListAPI.query({order_by: 'date'}, function (data2) {
                             $scope.questions = data2["data"];
                         });
+//                        $route.reload();
                     }, function (error) {
                         // Error
                         $scope.has_error = true;
