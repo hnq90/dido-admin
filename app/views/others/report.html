@@ -12,8 +12,8 @@
                         <tr>
                             <th>No</th>
                             <th>Message</th>
-                            <th>Item</th>
-                            <th>Action</th>
+                            <th>Item ID</th>
+                            <th>Type</th>
                             <th>Solved</th>
                             <th>Action</th>
                         </tr>
@@ -23,7 +23,7 @@
                             <td>{{$index+1}}</td>
                             <td>{{report.message}}</td>
                             <td>{{report.report_item_id}}</td>
-                            <td>{{report.report_action_id}}</td>
+                            <td>{{report.report_action_id | report_action}}</td>
                             <td class="center">{{report.solved}}</td>
                             <td class="center">
                                 <a class="btn {{report.solved==true?'btn-success':'btn-danger'}}" ng-click="report.solved==true?'#':solveReport(report.id)">
