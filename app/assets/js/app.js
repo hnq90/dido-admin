@@ -21,74 +21,88 @@ var DidoCP = angular.module('dido', [
         $routeProvider.when('/home', {
             templateUrl: 'views/others/home.html',
             controller: 'DashboardCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/report', {
             templateUrl: 'views/others/report.html',
             controller: 'ReportCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/feedback', {
             templateUrl: 'views/others/feedback.html',
             controller: 'FeedbackCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/user', {
             templateUrl: 'views/user/user.html',
             controller: 'UserCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/user-detail/:id', {
             templateUrl: 'views/user/edit_user.html',
             controller: 'UserDetailCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/user-creation/', {
             templateUrl: 'views/user/create_user.html',
             controller: 'UserCreationCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/user-search/', {
             templateUrl: 'views/user/user.html',
             controller: 'UserSearchCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/place', {
             templateUrl: 'views/place/place.html',
             controller: 'PlaceCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/place-detail/:id', {
             templateUrl: 'views/place/edit_place.html',
             controller: 'PlaceDetailCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/place-creation/', {
             templateUrl: 'views/place/create_place.html',
             controller: 'PlaceCreationCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/place-search/', {
             templateUrl: 'views/place/place.html',
             controller: 'PlaceSearchCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/question', {
             templateUrl: 'views/question/question.html',
             controller: 'QuestionCtrl',
-            isFree: false
+            needAuthen: true
         }).when('/answer', {
             templateUrl: 'views/answer/answer.html',
             controller: 'AnswerCtrl',
-            isFree: false
+            needAuthen: true
+        }).when('/login', {
+            templateUrl: 'views/others/login_form.html',
+            controller: 'AuthenCtrl',
+            needAuthen: false
+        }).when('/logout', {
+            templateUrl: 'views/others/login_form.html',
+            controller: 'LogoutCtrl',
+            needAuthen: false
         }).otherwise({
             redirectTo: '/home'
         });
     }
 ]);
-//.when('/login', {
-//            templateUrl: 'views/others/login_form.html',
-//            controller: 'AuthenCtrl',
-//            isFree: true
-//        })
-//.run( function($rootScope, $location, $cookies) {
-//        $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-//            if (!next.$$route.isFree && $cookies.logged == true) {
-//                console.log($cookies.logged);
-//            } else {
-//                $location.path('/login');
-//            }
-//       });
-//    });
+
+DidoCP.run( function($rootScope, $location, $cookies) {
+        $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+            if (next.$$route.needAuthen == true) {
+                //check cookie logged in
+                if ($cookies.logged == 'true') {
+                    var admin_info = JSON.parse($cookies.admin_info);
+                    $rootScope.admin_name = admin_info.firstname + ' ' + admin_info.lastname;
+                    $rootScope.admin_avatar = admin_info.avatar;
+                    $rootScope.logged = true;
+
+                } else {
+                    $rootScope.admin_name = undefined;
+                    $rootScope.admin_avatar = undefined;
+                    $rootScope.logged = false;
+                    $location.path('/login');
+                }
+            }
+       });
+    });
 
 DidoCP.filter('cut', function () {
     return function (value, wordwise, max, tail) {

@@ -44,7 +44,7 @@
 
 <body>
 <!-- start: Header -->
-<header class="navbar">
+<header class="navbar" ng-show="logged">
     <div class="container">
         <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".sidebar-nav.nav-collapse">
             <span class="icon-bar"></span>
@@ -59,15 +59,14 @@
                 <!-- start: User Dropdown -->
                 <li class="dropdown">
                     <a class="btn account dropdown-toggle" data-toggle="dropdown">
-                        <div class="avatar"><img src="assets/img/avatar2.jpg" alt="Avatar"></div>
+                        <div class="avatar"><img ng-src="{{admin_avatar}}" alt="Avatar"></div>
                         <div class="user">
                             <span class="hello">Welcome!</span>
-                            <span class="name">Admin HuyNQ</span>
+                            <span class="name">Admin {{admin_name}}</span>
                         </div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a><i class="fa fa-user"></i> Profile</a></li>
-                        <li><a href="login.html"><i class="fa fa-off"></i> Logout</a></li>
+                        <li><a href="#/logout"><i class="fa fa-off"></i> Logout</a></li>
                     </ul>
                 </li>
                 <!-- end: User Dropdown -->
@@ -82,7 +81,7 @@
     <div class="row">
 
     <!-- start: Main Menu -->
-    <div data-ng-include data-src="'views/others/menu.html'"></div>
+    <div data-ng-include data-src="'views/others/menu.html'" ng-show="logged"></div>
     <!-- end: Main Menu -->
 
     <!-- start: Content -->
@@ -97,7 +96,7 @@
 <!--/container-->
 
 <div class="clearfix"></div>
-<footer>
+<footer ng-show="logged">
     <div data-ng-include data-src="'views/others/footer.html'"></div>
 </footer>
 <!--JS IMPORT-->

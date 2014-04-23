@@ -2,50 +2,79 @@
 
 /* Controllers */
 angular.module('dido.controllers', [])
-//    .controller('AuthenCtrl', ['$scope', '$cookies', '$rootScope', '$location', 'LoginAPI', 'TokenAPI',
-//        function ($scope, $cookies, $rootScope, $location, LoginAPI, TokenAPI) {
-//            if ($cookies.auth_token != null) {
-//                var current_token = $cookies.auth_token;
-//                var current_id = $cookies.user_id;
-//                var current_email = $cookies.user_email;
-//
-//                var check_token = TokenAPI.check({auth_token: current_token, user_id: current_id},function (data) {
-//                    if (check_token['data']) {
-//                        $cookies.logged = true;
-//                        $location.path('/home');
-//                    } else {
-//                        $cookies.logged = false;
-//                        $location.path('/login');
-//                    }
-//                });
-//            }
-//
-//            $scope.login = function(email, password) {
-//                var user = {
-//                    email: email,
-//                    password: password
-//                };
-//                var login_data = LoginAPI.login({user: user}, function(data){
-//                    var rev_data = data['data'];
-//                    var auth_token = rev_data.auth_token;
-//
-//                    if (rev_data.user.id == 5) {
-//                        $cookies.logged = true;
-//                        $cookies.auth_token = auth_token;
-//                        $cookies.user_id = rev_data.user.id;
-//                        $cookies.user_email = rev_data.user.email;
-//                        $location.path('/home');
-//                    }
-//                    else{
-//                        $cookies.logged = false;
-//                        $location.path('/login');
-//                    }
-//                }, function(error) {
-//                    $location.path('/login');
-//                });
-//            };
-//        }
-//    ])
+    .controller('AuthenCtrl', ['$scope', '$cookies', '$cookieStore', '$rootScope', '$location', 'LoginAPI', 'TokenAPI',
+        function ($scope, $cookies, $cookieStore, $rootScope, $location, LoginAPI, TokenAPI) {
+
+            //Check logged in each time go to login form
+            if ($cookies.logged == 'true') {
+                if ($cookies.auth_token != null) {
+                    var current_token = $cookies.auth_token;
+                    var current_id = JSON.parse($cookies.admin_info).id;
+
+                    var check_token = TokenAPI.check({auth_token: current_token, user_id: current_id},function (data) {
+                        if (check_token['data']) {
+                            $cookies.logged = true;
+
+                            $location.path('/home');
+                        } else {
+                            $cookieStore.remove('logged');
+                            $cookieStore.remove('auth_token');
+                            $cookieStore.remove('admin_info');
+
+                            $location.path('/login');
+                        }
+                    });
+                }
+            } else {
+                $rootScope.logged = false;
+            }
+
+            $scope.login = function(email, password) {
+                var user = {
+                    email: email,
+                    password: password
+                };
+                var login_data = LoginAPI.login({user: user}, function(data){
+                    var rev_data = data['data'];
+                    console.log(rev_data);
+                    var auth_token = rev_data.auth_token;
+
+                    if (rev_data.user.id == 1) {
+                        // Luu lai thong tin admin
+                        $cookies.logged = true;
+                        $cookies.auth_token = auth_token;
+                        $cookies.admin_info = JSON.stringify(rev_data.user);
+
+                        // Redirect sang trang chu
+                        $location.path('/home');
+                    }
+                    else{
+                        $cookieStore.remove('logged');
+                        $cookieStore.remove('auth_token');
+                        $cookieStore.remove('admin_info');
+
+                        $location.path('/login');
+                    }
+                }, function(error) {
+                    $scope.has_error = true;
+                    $scope.messages = "Invalid login";
+                });
+            };
+        }
+    ])
+    .controller('LogoutCtrl', ['$scope', '$cookies', '$cookieStore', '$rootScope', '$location', 'LoginAPI', 'TokenAPI',
+        function ($scope, $cookies, $cookieStore, $rootScope, $location, LoginAPI, TokenAPI) {
+            //Check logged in each time go to login form
+            if ($cookies.logged == 'true') {
+                $cookieStore.remove('logged');
+                $cookieStore.remove('auth_token');
+                $cookieStore.remove('user_id');
+                $cookieStore.remove('user_email');
+
+                $location.path('/login');
+            }
+        }
+    ])
     .controller('DashboardCtrl', ['$scope', 'DashboardInfo',
         function ($scope, DashboardInfo) {
             var datas = DashboardInfo.get(function () {
@@ -197,16 +226,18 @@ angular.module('dido.controllers', [])
 
             $scope.updateUser = function (id, state) {
                 if (state == true) {
-                    if (confirm("Do you want to update?")) {
-                        var current_info = $scope.user;
-                        UserAPI.update(current_info, function (data) {
-                            // Success
-                            $location.path('/user');
-                        }, function (error) {
-                            // Error
-                            $scope.has_error = true;
-                            $scope.errors = error.data.message;
-                        });
+                    if (confirm("Do have the right to edit this user?")) {
+                        if (confirm("Do you want to update?")) {
+                            var current_info = $scope.user;
+                            UserAPI.update(current_info, function (data) {
+                                // Success
+                                $location.path('/user');
+                            }, function (error) {
+                                // Error
+                                $scope.has_error = true;
+                                $scope.errors = error.data.message;
+                            });
+                        }
                     }
                 } else {
                     alert("User info isn't changed");
