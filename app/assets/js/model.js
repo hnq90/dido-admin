@@ -25,13 +25,14 @@ var dido_headers = {
     dish_api = '/api/dishes/',
     report_api = '/api/reports/',
     sign_in_api = 'sign_in',
-    check_token_api = '/api/token',
+    check_token_api = '/api/admin_token',
     question_api = '/api/questions/',
-    answer_api = '/api/answers/';
+    answer_api = '/api/answers/',
+    admin_login_api = '/api/super_user/login';
 
 dido_api.factory('LoginAPI', ['$resource',
     function ($resource) {
-        return $resource(base_url + user_creation_api + sign_in_api, {}, {
+        return $resource(base_url + admin_login_api, {}, {
             login: {
                 method: 'POST',
                 headers: dido_headers
@@ -287,5 +288,14 @@ dido_api.factory('LoginAPI', ['$resource',
                     method: 'DELETE',
                     headers: dido_headers
                 }
+            });
+        }])
+    .factory('CheckAdminPermission', ['$resource',
+        function ($resource) {
+            return $resource(base_url + answer_api + 'admin_del', {}, {
+//                destroy: {
+//                    method: 'DELETE',
+//                    headers: dido_headers
+//                }
             });
         }]);

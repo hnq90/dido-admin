@@ -7,11 +7,12 @@ angular.module('dido.controllers', [])
 
             //Check logged in each time go to login form
             if ($cookies.logged == 'true') {
-                if ($cookies.auth_token != null) {
-                    var current_token = $cookies.auth_token;
-                    var current_id = JSON.parse($cookies.admin_info).id;
+                var admin_info = JSON.parse($cookies.admin_info);
+                if (admin_info.auth_token != null) {
+                    var current_token = admin_info.auth_token;
+                    var current_id = admin_info.id;
 
-                    var check_token = TokenAPI.check({auth_token: current_token, user_id: current_id},function (data) {
+                    var check_token = TokenAPI.check({auth_token: current_token, su_id: current_id},function (data) {
                         if (check_token['data']) {
                             $cookies.logged = true;
 
@@ -29,47 +30,35 @@ angular.module('dido.controllers', [])
                 $rootScope.logged = false;
             }
 
-            $scope.login = function(email, password) {
-                var user = {
-                    email: email,
+            $scope.login = function(username, password) {
+                var admin = {
+                    user_name: username,
                     password: password
                 };
-                var login_data = LoginAPI.login({user: user}, function(data){
+                var login_data = LoginAPI.login(admin, function(data){
                     var rev_data = data['data'];
-                    console.log(rev_data);
-                    var auth_token = rev_data.auth_token;
+                    $cookies.logged = true;
+                    $cookies.admin_info = JSON.stringify(rev_data);
+                    $location.path('/home');
 
-                    if (rev_data.user.id == 1) {
-                        // Luu lai thong tin admin
-                        $cookies.logged = true;
-                        $cookies.auth_token = auth_token;
-                        $cookies.admin_info = JSON.stringify(rev_data.user);
-
-                        // Redirect sang trang chu
-                        $location.path('/home');
-                    }
-                    else{
-                        $cookieStore.remove('logged');
-                        $cookieStore.remove('auth_token');
-                        $cookieStore.remove('admin_info');
-
-                        $location.path('/login');
-                    }
                 }, function(error) {
+                    $cookieStore.remove('logged');
+                    $cookieStore.remove('auth_token');
+                    $cookieStore.remove('admin_info');
+
                     $scope.has_error = true;
                     $scope.messages = "Invalid login";
                 });
             };
         }
     ])
-    .controller('LogoutCtrl', ['$scope', '$cookies', '$cookieStore', '$rootScope', '$location', 'LoginAPI', 'TokenAPI',
-        function ($scope, $cookies, $cookieStore, $rootScope, $location, LoginAPI, TokenAPI) {
+    .controller('LogoutCtrl', ['$scope', '$cookies', '$cookieStore', '$rootScope', '$location',
+        function ($scope, $cookies, $cookieStore, $rootScope, $location) {
             //Check logged in each time go to login form
             if ($cookies.logged == 'true') {
                 $cookieStore.remove('logged');
                 $cookieStore.remove('auth_token');
-                $cookieStore.remove('user_id');
-                $cookieStore.remove('user_email');
+                $cookieStore.remove('admin_info');
 
                 $location.path('/login');
             }
@@ -94,8 +83,8 @@ angular.module('dido.controllers', [])
             });
         }
     ])
-    .controller('UserCtrl', ['$scope', 'UsersAPI', 'UserAPI', '$location',
-        function ($scope, UsersAPI, UserAPI, $location) {
+    .controller('UserCtrl', ['$scope', '$cookies', 'UsersAPI', 'UserAPI', '$location',
+        function ($scope, $cookies, UsersAPI, UserAPI, $location) {
             $scope.main_user_page = true;
             $scope.users = {};
 
@@ -106,13 +95,17 @@ angular.module('dido.controllers', [])
             $scope.deleteUser = function (userId) {
                 if (confirm("Do have the right to delete this user?")) {
                     if (confirm("Do you really want to delete this user?")) {
-                        UserAPI.delete({ id: userId }, function (data) {
+                        var admin = JSON.parse($cookies.admin_info);
+                        UserAPI.delete({ id: userId, su_id: admin.id, auth_token: admin.auth_token }, function (data) {
                             // Success
                             UsersAPI.query(function (data2) {
                                 $scope.users = data2["data"];
                             });
                         }, function (error) {
                             // Error
+                            if (error.status == 401) {
+                                alert("You don't have permission to delete this user");
+                            }
                             $scope.has_error = true;
                             $scope.errors = error.data.message;
                         });
@@ -157,8 +150,8 @@ angular.module('dido.controllers', [])
             }
         }
     ])
-    .controller('UserSearchCtrl', ['$scope', 'UsersAPI', 'UserAPI', 'UserSearchAPI', '$location',
-        function ($scope, UsersAPI, UserAPI, UserSearchAPI, $location) {
+    .controller('UserSearchCtrl', ['$scope', '$cookies', 'UsersAPI', 'UserAPI', 'UserSearchAPI', '$location',
+        function ($scope, $cookies, UsersAPI, UserAPI, UserSearchAPI, $location) {
             $scope.main_user_page = false;
             $scope.search_user_page = true;
             $scope.users = {};
@@ -172,17 +165,23 @@ angular.module('dido.controllers', [])
             };
 
             $scope.deleteUser = function (userId) {
-                if (confirm("Do you want to delete this user?")) {
-                    UserAPI.delete({ id: userId }, function (data) {
-                        // Success
-                        UsersAPI.query(function (data2) {
-                            $scope.users = data2["data"];
+                if (confirm("Do have the right to delete this user?")) {
+                    if (confirm("Do you really want to delete this user?")) {
+                        var admin = JSON.parse($cookies.admin_info);
+                        UserAPI.delete({ id: userId, su_id: admin.id, auth_token: admin.auth_token }, function (data) {
+                            // Success
+                            UsersAPI.query(function (data2) {
+                                $scope.users = data2["data"];
+                            });
+                        }, function (error) {
+                            // Error
+                            if (error.status == 401) {
+                                alert("You don't have permission to delete this user");
+                            }
+                            $scope.has_error = true;
+                            $scope.errors = error.data.message;
                         });
-                    }, function (error) {
-                        // Error
-                        $scope.has_error = true;
-                        $scope.errors = error.data.message;
-                    });
+                    }
                 }
             };
 
@@ -217,8 +216,8 @@ angular.module('dido.controllers', [])
             };
         }
     ])
-    .controller('UserDetailCtrl', ['$scope', '$routeParams', 'UserAPI', '$location',
-        function ($scope, $routeParams, UserAPI, $location) {
+    .controller('UserDetailCtrl', ['$scope', '$cookies', '$routeParams', 'UserAPI', '$location',
+        function ($scope, $cookies, $routeParams, UserAPI, $location) {
             var user = UserAPI.show({id: $routeParams.id}, function () {
                 $scope.user = user["data"];
             });
@@ -228,7 +227,11 @@ angular.module('dido.controllers', [])
                 if (state == true) {
                     if (confirm("Do have the right to edit this user?")) {
                         if (confirm("Do you want to update?")) {
+                            var admin = JSON.parse($cookies.admin_info);
                             var current_info = $scope.user;
+                            current_info.su_id = admin.id;
+                            current_info.auth_token = admin.auth_token;
+
                             UserAPI.update(current_info, function (data) {
                                 // Success
                                 $location.path('/user');

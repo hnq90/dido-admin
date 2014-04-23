@@ -90,7 +90,7 @@ DidoCP.run( function($rootScope, $location, $cookies) {
                 //check cookie logged in
                 if ($cookies.logged == 'true') {
                     var admin_info = JSON.parse($cookies.admin_info);
-                    $rootScope.admin_name = admin_info.firstname + ' ' + admin_info.lastname;
+                    $rootScope.admin_name = admin_info.first_name + ' ' + admin_info.last_name;
                     $rootScope.admin_avatar = admin_info.avatar;
                     $rootScope.logged = true;
 
