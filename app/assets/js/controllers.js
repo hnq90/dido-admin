@@ -269,6 +269,7 @@ angular.module('dido.controllers', [])
                             $location.path('/user');
                         }, function (error) {
                             // Error
+                            console.log(error);
                             $scope.has_error = true;
                             $scope.errors = error.data.message;
                         });

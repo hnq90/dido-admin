@@ -84,21 +84,30 @@ var DidoCP = angular.module('dido', [
     }
 ]);
 
+DidoCP.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
+}]);
+
 DidoCP.run( function($rootScope, $location, $cookies) {
         $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-            if (next.$$route.needAuthen == true) {
-                //check cookie logged in
-                if ($cookies.logged == 'true') {
-                    var admin_info = JSON.parse($cookies.admin_info);
-                    $rootScope.admin_name = admin_info.first_name + ' ' + admin_info.last_name;
-                    $rootScope.admin_avatar = admin_info.avatar;
-                    $rootScope.logged = true;
+            if (next.$$route) {
+                if (next.$$route.needAuthen == true) {
+                    //check cookie logged in
+                    if ($cookies.logged == 'true') {
+                        var admin_info = JSON.parse($cookies.admin_info);
+                        $rootScope.admin_name = admin_info.first_name + ' ' + admin_info.last_name;
+                        $rootScope.admin_avatar = admin_info.avatar;
+                        $rootScope.logged = true;
 
-                } else {
-                    $rootScope.admin_name = undefined;
-                    $rootScope.admin_avatar = undefined;
-                    $rootScope.logged = false;
-                    $location.path('/login');
+                    } else {
+                        $rootScope.admin_name = undefined;
+                        $rootScope.admin_avatar = undefined;
+                        $rootScope.logged = false;
+                        $location.path('/login');
+                    }
                 }
             }
        });
